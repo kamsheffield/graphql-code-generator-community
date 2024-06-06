@@ -6,7 +6,7 @@ import { GraphQLInputEnumTypeMetadata, GraphQLInputObjectFieldMetadata, GraphQLI
 import { OperationGenerationMetadata, OperationParameterGenerationMetadata } from './OperationGenerationMetadata';
 
 export interface OperationMetadataPluginConfig extends RawClientSideBasePluginConfig {
-  metadataPath: string,
+  metadata: string[],
 }
 
 export const plugin: PluginFunction<OperationMetadataPluginConfig, Types.PluginOutput> = async (
@@ -14,8 +14,12 @@ export const plugin: PluginFunction<OperationMetadataPluginConfig, Types.PluginO
   documents: Types.DocumentFile[],
   config: OperationMetadataPluginConfig
 ) => {
+  if (!config.metadata || config.metadata.length === 0) {
+    throw new Error('The metadata option is required and must be a glob pattern of json files.');
+  }
+
   // get all the metadata files from the metadata path
-  const schemaMetadataJson = await glob(config.metadataPath + '/**/*.json', { ignore: ['node_modules/**', '.graphql'] });
+  const schemaMetadataJson = await glob(config.metadata, { ignore: ['node_modules/**', '.graphql'] });
 
   // create the metadata object
   const metadata: GraphQLSchemaMetadata = {
@@ -271,11 +275,8 @@ export interface GraphQLInputObjectTypeMetadata extends BaseGraphQLInputTypeMeta
   readonly fields: ReadonlyArray<GraphQLInputObjectFieldMetadata>;
 }
 
-export type GraphQLInputObjectFieldMetadata = GraphQLInputObjectScalarFieldMetadata | GraphQLInputObjectUnitFieldMetadata | GraphQLInputObjectListFieldMetadata;
+export type GraphQLInputObjectFieldMetadata = GraphQLInputObjectScalarFieldMetadata | GraphQLInputObjectEnumFieldMetadata | GraphQLInputObjectObjectFieldMetadata | GraphQLInputObjectListFieldMetadata;
 
-/**
-* The metadata for a field in a GraphQL type.
-*/
 interface BaseGraphQLInputObjectFieldMetadata {
   readonly name: string;
   readonly required: boolean;
@@ -287,9 +288,14 @@ export interface GraphQLInputObjectScalarFieldMetadata extends BaseGraphQLInputO
   readonly type: string;
 }
 
-export interface GraphQLInputObjectUnitFieldMetadata extends BaseGraphQLInputObjectFieldMetadata {
-  readonly kind: 'enum' | 'object';
+export interface GraphQLInputObjectEnumFieldMetadata extends BaseGraphQLInputObjectFieldMetadata {
+  readonly kind: 'enum';
   readonly type: GraphQLInputEnumTypeMetadata;
+}
+
+export interface GraphQLInputObjectObjectFieldMetadata extends BaseGraphQLInputObjectFieldMetadata {
+  readonly kind: 'object';
+  readonly type: GraphQLInputObjectTypeMetadata;
 }
 
 export interface GraphQLInputObjectListFieldMetadata extends BaseGraphQLInputObjectFieldMetadata {
@@ -300,37 +306,17 @@ export interface GraphQLInputObjectListFieldMetadata extends BaseGraphQLInputObj
 }
 
 export interface GraphQLInputObjectFieldValidationMetadata {
-
-  /**
-   * The type of the validation.
-   */
   readonly type: string;
-
-  /**
-   * Array of constraints of this validation.
-   */
   readonly constraints?: ReadonlyArray<any>;
-
-  /**
-   * Specifies if validated value is an array and each of its item must be validated.
-   */
   readonly each?: boolean;
-
-  /*
-   * A transient set of data passed through to the validation result for response mapping
-   */
   readonly context?: any;
-
-  /**
-   * Extra options specific to validation type.
-   */
   readonly options?: any;
 }
 `;
 }
 
 function enumTypeTemplate(type: GraphQLInputEnumTypeMetadata): string {
-  return `  export const ${type.type} = <GraphQLInputEnumTypeMetadata>{
+  return `  export const ${type.type}: GraphQLInputEnumTypeMetadata = {
     kind: 'enum',
     type: '${type.type}',
     values: [${type.values.map(v => '\n      ' + `'${v}'`).join(',')}\n    ],
@@ -339,7 +325,7 @@ function enumTypeTemplate(type: GraphQLInputEnumTypeMetadata): string {
 }
 
 function objectTypeTemplate(type: GraphQLInputObjectTypeMetadata): string {
-  return `  export const ${type.type} = <GraphQLInputObjectTypeMetadata>{
+  return `  export const ${type.type}: GraphQLInputObjectTypeMetadata = {
     kind: 'object',
     type: '${type.type}',
     fields: [${type.fields.map(f => '\n    ' + fieldTemplate(f)).join(',')}\n    ],
@@ -390,7 +376,7 @@ function operationTemplate(
   operation: OperationGenerationMetadata,
   metadata: GraphQLSchemaMetadata
 ): string {
-  return `export const ${operation.operation}Operation = <GraphQLOperationMetadata<typeof ${operation.document}>>{
+  return `export const ${operation.operation}Operation: GraphQLOperationMetadata<typeof ${operation.document}> = {
   operation: '${operation.operation}',
   operationType: '${operation.operationType}',
   document: ${operation.document},

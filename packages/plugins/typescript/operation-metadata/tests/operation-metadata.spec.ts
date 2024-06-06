@@ -23,9 +23,11 @@ describe('Operation Metadata Plugin Test', () => {
     { loaders: [new GraphQLFileLoader()] }
   );
 
-  it('Should greet', async () => {
+  it('Generates the correct output file', async () => {
     const result = await plugin(schema, documents, {
-      metadataPath: './packages/plugins/typescript/operation-metadata/test-data'
+      metadata: [
+        './packages/plugins/typescript/operation-metadata/test-data/**/*.json'
+      ],
     });
 
     expect(typeof result).toBe('string');
