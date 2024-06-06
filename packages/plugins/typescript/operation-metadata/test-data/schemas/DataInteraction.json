@@ -1,0 +1,378 @@
+{
+    "types": {
+        "input": {
+            "Int": {
+                "kind": "scalar",
+                "type": "Int",
+                "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1."
+            },
+            "String": {
+                "kind": "scalar",
+                "type": "String",
+                "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text."
+            },
+            "PaginationInput": {
+                "kind": "object",
+                "type": "PaginationInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "Int",
+                        "required": true,
+                        "name": "itemsPerPage"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "Int",
+                        "required": false,
+                        "name": "itemIndex"
+                    }
+                ]
+            },
+            "Boolean": {
+                "kind": "scalar",
+                "type": "Boolean",
+                "description": "The `Boolean` scalar type represents `true` or `false`."
+            },
+            "JSON": {
+                "kind": "scalar",
+                "type": "JSON",
+                "description": "The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."
+            },
+            "ColumnFilterGroup": {
+                "kind": "object",
+                "type": "ColumnFilterGroup",
+                "fields": [
+                    {
+                        "kind": "enum",
+                        "type": "ColumnFilterGroupOperator",
+                        "required": false,
+                        "name": "operator"
+                    },
+                    {
+                        "kind": "object",
+                        "type": "ColumnFilter",
+                        "required": true,
+                        "name": "conditions"
+                    },
+                    {
+                        "kind": "object",
+                        "type": "ColumnFilterGroup",
+                        "required": true,
+                        "name": "filters"
+                    }
+                ]
+            },
+            "ColumnFilterGroupOperator": {
+                "kind": "enum",
+                "type": "ColumnFilterGroupOperator",
+                "values": [
+                    "And",
+                    "Or"
+                ]
+            },
+            "ColumnFilter": {
+                "kind": "object",
+                "type": "ColumnFilter",
+                "fields": [
+                    {
+                        "kind": "enum",
+                        "type": "ColumnFilterConditionOperator",
+                        "required": true,
+                        "name": "operator"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "Boolean",
+                        "required": false,
+                        "name": "caseSensitive"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "column"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "JSON",
+                        "required": true,
+                        "name": "value"
+                    }
+                ]
+            },
+            "ColumnFilterConditionOperator": {
+                "kind": "enum",
+                "type": "ColumnFilterConditionOperator",
+                "description": "The operator of a field filter",
+                "values": [
+                    "Equal",
+                    "NotEqual",
+                    "GreaterThan",
+                    "GreaterThanOrEqual",
+                    "LessThan",
+                    "LessThanOrEqual",
+                    "Like",
+                    "NotLike",
+                    "In",
+                    "NotIn",
+                    "IsNull",
+                    "IsNotNull"
+                ]
+            },
+            "OrderBy": {
+                "kind": "object",
+                "type": "OrderBy",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "key"
+                    },
+                    {
+                        "kind": "enum",
+                        "type": "OrderByDirection",
+                        "required": false,
+                        "name": "direction"
+                    }
+                ]
+            },
+            "OrderByDirection": {
+                "kind": "enum",
+                "type": "OrderByDirection",
+                "description": "The order direction of a query",
+                "values": [
+                    "Ascending",
+                    "Descending"
+                ]
+            },
+            "TimeInterval": {
+                "kind": "enum",
+                "type": "TimeInterval",
+                "description": "Possible time intervals used to group time series data.",
+                "values": [
+                    "Hour",
+                    "HourOfDay",
+                    "Day",
+                    "DayOfWeek",
+                    "DayOfMonth",
+                    "Month",
+                    "MonthOfYear",
+                    "Quarter",
+                    "Year"
+                ]
+            },
+            "DataInteractionDatabaseTableMetricsQueryInput": {
+                "kind": "object",
+                "type": "DataInteractionDatabaseTableMetricsQueryInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "columnName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "DateTimeISO",
+                        "required": false,
+                        "name": "startTime"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "DateTimeISO",
+                        "required": false,
+                        "name": "endTime"
+                    },
+                    {
+                        "kind": "enum",
+                        "type": "TimeInterval",
+                        "required": true,
+                        "name": "timeIntervals",
+                        "validation": [
+                            {
+                                "type": "arrayNotEmpty"
+                            },
+                            {
+                                "type": "isArray"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "tableName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "databaseName"
+                    }
+                ]
+            },
+            "DateTimeISO": {
+                "kind": "scalar",
+                "type": "DateTimeISO",
+                "description": "A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format."
+            },
+            "DataInteractionDatabaseTableRowCreateInput": {
+                "kind": "object",
+                "type": "DataInteractionDatabaseTableRowCreateInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "databaseName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "tableName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "JSON",
+                        "required": true,
+                        "name": "data"
+                    },
+                    {
+                        "kind": "object",
+                        "type": "DataInteractionDatabaseRelationInput",
+                        "required": true,
+                        "name": "relationData"
+                    }
+                ]
+            },
+            "DataInteractionDatabaseRelationInput": {
+                "kind": "object",
+                "type": "DataInteractionDatabaseRelationInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "fieldName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "tableName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "type"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "inverseFieldName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "inverseTableName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "inverseType"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "id"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "JSON",
+                        "required": false,
+                        "name": "data"
+                    }
+                ]
+            },
+            "DataInteractionDatabaseTableRowUpdateInput": {
+                "kind": "object",
+                "type": "DataInteractionDatabaseTableRowUpdateInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "databaseName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "tableName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "id"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "JSON",
+                        "required": false,
+                        "name": "data"
+                    }
+                ]
+            },
+            "__TypeKind": {
+                "kind": "enum",
+                "type": "__TypeKind",
+                "description": "An enum describing what kind of type a given `__Type` is.",
+                "values": [
+                    "SCALAR",
+                    "OBJECT",
+                    "INTERFACE",
+                    "UNION",
+                    "ENUM",
+                    "INPUT_OBJECT",
+                    "LIST",
+                    "NON_NULL"
+                ]
+            },
+            "__DirectiveLocation": {
+                "kind": "enum",
+                "type": "__DirectiveLocation",
+                "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+                "values": [
+                    "QUERY",
+                    "MUTATION",
+                    "SUBSCRIPTION",
+                    "FIELD",
+                    "FRAGMENT_DEFINITION",
+                    "FRAGMENT_SPREAD",
+                    "INLINE_FRAGMENT",
+                    "VARIABLE_DEFINITION",
+                    "SCHEMA",
+                    "SCALAR",
+                    "OBJECT",
+                    "FIELD_DEFINITION",
+                    "ARGUMENT_DEFINITION",
+                    "INTERFACE",
+                    "UNION",
+                    "ENUM",
+                    "ENUM_VALUE",
+                    "INPUT_OBJECT",
+                    "INPUT_FIELD_DEFINITION"
+                ]
+            }
+        }
+    }
+}

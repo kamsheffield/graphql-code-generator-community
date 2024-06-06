@@ -1,0 +1,3904 @@
+{
+    "types": {
+        "UpdateAccountPasswordInput": {
+            "type": "object",
+            "name": "UpdateAccountPasswordInput",
+            "fields": {
+                "currentPassword": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "minLength",
+                            "constraints": [
+                                8
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                30
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "newPassword": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "minLength",
+                            "constraints": [
+                                8
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                30
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "ResetCredentialInput": {
+            "type": "object",
+            "name": "ResetCredentialInput",
+            "fields": {
+                "code": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isLength",
+                            "constraints": [
+                                16,
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "password": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "minLength",
+                            "constraints": [
+                                8
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                90
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "VerifyEmailInput": {
+            "type": "object",
+            "name": "VerifyEmailInput",
+            "fields": {
+                "code": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isLength",
+                            "constraints": [
+                                16,
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "UpsertEmailInput": {
+            "type": "object",
+            "name": "UpsertEmailInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "markAsPrimary": {
+                    "typeCategory": "scalar",
+                    "typeName": "Boolean",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "GrantAccountRoleInput": {
+            "type": "object",
+            "name": "GrantAccountRoleInput",
+            "fields": {
+                "expiresAt": {
+                    "name": "DateTimeISO",
+                    "typeCategory": "scalar",
+                    "typeName": "DateTimeISO",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isDateString",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "roleType": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "accountId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailAddress": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "CreateAccountInput": {
+            "type": "object",
+            "name": "CreateAccountInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "password": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "minLength",
+                            "constraints": [
+                                8
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                90
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "username": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isLength",
+                            "constraints": [
+                                3,
+                                32
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "givenName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "familyName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "phoneNumber": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isPhoneNumber",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "encryptionConfiguration": {
+                    "name": "AccountEncryptionConfiguration",
+                    "typeCategory": "object",
+                    "typeName": "AccountEncryptionConfiguration",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "AccountEncryptionConfiguration": {
+            "type": "object",
+            "name": "AccountEncryptionConfiguration",
+            "fields": {
+                "transitKeyId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "publicKey": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "SignInInput": {
+            "type": "object",
+            "name": "SignInInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "password": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "minLength",
+                            "constraints": [
+                                8
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                90
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "encryptionConfiguration": {
+                    "name": "AccountEncryptionConfiguration",
+                    "typeCategory": "object",
+                    "typeName": "AccountEncryptionConfiguration",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "SignInUsingCodeInput": {
+            "type": "object",
+            "name": "SignInUsingCodeInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "code": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isLength",
+                            "constraints": [
+                                24,
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "encryptionConfiguration": {
+                    "name": "AccountEncryptionConfiguration",
+                    "typeCategory": "object",
+                    "typeName": "AccountEncryptionConfiguration",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "UpdateProfileInput": {
+            "type": "object",
+            "name": "UpdateProfileInput",
+            "fields": {
+                "username": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isLength",
+                            "constraints": [
+                                3,
+                                32
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "isString",
+                            "each": false
+                        }
+                    ]
+                },
+                "displayName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                128
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "givenName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                128
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "familyName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                128
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "middleName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                128
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "preferredName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                128
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "phoneNumber": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isPhoneNumber",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "ContactCreateInput": {
+            "type": "object",
+            "name": "ContactCreateInput",
+            "fields": {
+                "name": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "source": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "type": {
+                    "typeCategory": "enum",
+                    "typeName": "ContactType",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEnum",
+                            "constraints": [
+                                {
+                                    "Person": "Person",
+                                    "Company": "Company"
+                                },
+                                [
+                                    "Person",
+                                    "Company"
+                                ]
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "note": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "metadata": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                },
+                "fields": {
+                    "typeCategory": "object",
+                    "typeName": "ContactFieldCreateInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "ContactType": {
+            "type": "enum",
+            "name": "ContactType",
+            "description": "Type of contact",
+            "values": {
+                "Person": "Person",
+                "Company": "Company"
+            }
+        },
+        "ContactFieldCreateInput": {
+            "type": "object",
+            "name": "ContactFieldCreateInput",
+            "fields": {
+                "type": {
+                    "typeCategory": "enum",
+                    "typeName": "ContactFieldType",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEnum",
+                            "constraints": [
+                                {
+                                    "EmailAddress": "EmailAddress",
+                                    "PhoneNumber": "PhoneNumber",
+                                    "StreetAddress": "StreetAddress"
+                                },
+                                [
+                                    "EmailAddress",
+                                    "PhoneNumber",
+                                    "StreetAddress"
+                                ]
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "label": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "value": {
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "ContactFieldType": {
+            "type": "enum",
+            "name": "ContactFieldType",
+            "description": "Type of contact field",
+            "values": {
+                "EmailAddress": "EmailAddress",
+                "PhoneNumber": "PhoneNumber",
+                "StreetAddress": "StreetAddress"
+            }
+        },
+        "ContactUpdateInput": {
+            "type": "object",
+            "name": "ContactUpdateInput",
+            "fields": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "name": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "source": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "note": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "metadata": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "ContactFieldUpdateInput": {
+            "type": "object",
+            "name": "ContactFieldUpdateInput",
+            "fields": {
+                "action": {
+                    "typeCategory": "enum",
+                    "typeName": "ListEntryAction",
+                    "nullable": false,
+                    "validation": []
+                },
+                "id": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "label": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "value": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                },
+                "type": {
+                    "name": "ContactFieldType",
+                    "typeCategory": "enum",
+                    "typeName": "ContactFieldType",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "ListEntryAction": {
+            "type": "enum",
+            "name": "ListEntryAction",
+            "values": {
+                "Add": "Add",
+                "Remove": "Remove",
+                "Update": "Update"
+            }
+        },
+        "DataInteractionDatabaseTableRowCreateInput": {
+            "type": "object",
+            "name": "DataInteractionDatabaseTableRowCreateInput",
+            "fields": {
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "data": {
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": false,
+                    "validation": []
+                },
+                "relationData": {
+                    "typeCategory": "object",
+                    "typeName": "DataInteractionDatabaseRelationInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "DataInteractionDatabaseRelationInput": {
+            "type": "object",
+            "name": "DataInteractionDatabaseRelationInput",
+            "fields": {
+                "fieldName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "type": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "inverseFieldName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "inverseTableName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "inverseType": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "id": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "data": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "DataInteractionDatabaseTableRowUpdateInput": {
+            "type": "object",
+            "name": "DataInteractionDatabaseTableRowUpdateInput",
+            "fields": {
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "id": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "data": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "UpsertEmailAutomationInput": {
+            "type": "object",
+            "name": "UpsertEmailAutomationInput",
+            "fields": {
+                "automationKey": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "isNotEmpty",
+                            "each": false
+                        }
+                    ]
+                },
+                "emailTemplateId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "subject": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "description": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "fromEmail": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        },
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "fromName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "availableMetadata": {
+                    "typeCategory": "object",
+                    "typeName": "AvailableMetadataInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "AvailableMetadataInput": {
+            "type": "object",
+            "name": "AvailableMetadataInput",
+            "fields": {
+                "key": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "dataType": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "SendEmailInput": {
+            "type": "object",
+            "name": "SendEmailInput",
+            "fields": {
+                "fromAddress": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "fromName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "toAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "subject": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "content": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "contentFormat": {
+                    "name": "EmailContentFormat",
+                    "typeCategory": "enum",
+                    "typeName": "EmailContentFormat",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "EmailContentFormat": {
+            "type": "enum",
+            "name": "EmailContentFormat",
+            "description": "The format of an email content",
+            "values": {
+                "HTML": "HTML",
+                "Plain": "Plain"
+            }
+        },
+        "EmailCampaignCreateInput": {
+            "type": "object",
+            "name": "EmailCampaignCreateInput",
+            "fields": {
+                "title": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "fromEmail": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "fromName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "description": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailTemplateId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "emailTemplateContentId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "stageInputs": {
+                    "typeCategory": "object",
+                    "typeName": "EmailCampaignStageInput",
+                    "nullable": false,
+                    "validation": []
+                },
+                "emailAddressInputs": {
+                    "typeCategory": "object",
+                    "typeName": "EmailCampaignEmailAddressInput",
+                    "nullable": false,
+                    "validation": []
+                },
+                "emailListInputs": {
+                    "typeCategory": "object",
+                    "typeName": "EmailCampaignEmailListInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "EmailCampaignStageInput": {
+            "type": "object",
+            "name": "EmailCampaignStageInput",
+            "fields": {
+                "indexId": {
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isInt",
+                            "each": false
+                        }
+                    ]
+                },
+                "percentToSend": {
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isPositive",
+                            "each": false
+                        },
+                        {
+                            "type": "max",
+                            "constraints": [
+                                100
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailTemplateId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailTemplateContentId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "EmailCampaignEmailAddressInput": {
+            "type": "object",
+            "name": "EmailCampaignEmailAddressInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "presetSendStage": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isPositive",
+                            "each": false
+                        },
+                        {
+                            "type": "max",
+                            "constraints": [
+                                100
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "EmailCampaignEmailListInput": {
+            "type": "object",
+            "name": "EmailCampaignEmailListInput",
+            "fields": {
+                "emailListId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "presetSendStage": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isPositive",
+                            "each": false
+                        },
+                        {
+                            "type": "max",
+                            "constraints": [
+                                100
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "EmailCampaignUpdateInput": {
+            "type": "object",
+            "name": "EmailCampaignUpdateInput",
+            "fields": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "newFromEmail": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "newFromName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "newTitle": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "newDescription": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "stagesToUpdate": {
+                    "typeCategory": "object",
+                    "typeName": "EmailCampaignStageUpdateInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "EmailCampaignStageUpdateInput": {
+            "type": "object",
+            "name": "EmailCampaignStageUpdateInput",
+            "fields": {
+                "action": {
+                    "typeCategory": "enum",
+                    "typeName": "ListEntryAction",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEnum",
+                            "constraints": [
+                                {
+                                    "Add": "Add",
+                                    "Remove": "Remove",
+                                    "Update": "Update"
+                                },
+                                [
+                                    "Add",
+                                    "Remove",
+                                    "Update"
+                                ]
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "indexId": {
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isInt",
+                            "each": false
+                        }
+                    ]
+                },
+                "percentToSend": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isPositive",
+                            "each": false
+                        },
+                        {
+                            "type": "max",
+                            "constraints": [
+                                100
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailTemplateId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailTemplateContentId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "EmailCampaignEmailAddressUpdateInput": {
+            "type": "object",
+            "name": "EmailCampaignEmailAddressUpdateInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "presetSendStage": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isPositive",
+                            "each": false
+                        },
+                        {
+                            "type": "max",
+                            "constraints": [
+                                100
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "action": {
+                    "typeCategory": "enum",
+                    "typeName": "ListEntryAction",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEnum",
+                            "constraints": [
+                                {
+                                    "Add": "Add",
+                                    "Remove": "Remove",
+                                    "Update": "Update"
+                                },
+                                [
+                                    "Add",
+                                    "Remove",
+                                    "Update"
+                                ]
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "EmailCampaignStatus": {
+            "type": "enum",
+            "name": "EmailCampaignStatus",
+            "description": "The status of the email campaign",
+            "values": {
+                "Draft": "Draft",
+                "Active": "Active",
+                "InProgress": "InProgress",
+                "Archive": "Archive",
+                "Complete": "Complete"
+            }
+        },
+        "CreateEmailListInput": {
+            "type": "object",
+            "name": "CreateEmailListInput",
+            "fields": {
+                "identifier": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "title": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "entries": {
+                    "typeCategory": "object",
+                    "typeName": "CreateEmailListEntryInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "CreateEmailListEntryInput": {
+            "type": "object",
+            "name": "CreateEmailListEntryInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "givenName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "familyName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "metadata": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "UpdateEmailListInput": {
+            "type": "object",
+            "name": "UpdateEmailListInput",
+            "fields": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "newIdentifier": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "newTitle": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "emailListEntryInputs": {
+                    "typeCategory": "object",
+                    "typeName": "UpdateEmailListEntryInput",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "arrayMaxSize",
+                            "constraints": [
+                                20
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "UpdateEmailListEntryInput": {
+            "type": "object",
+            "name": "UpdateEmailListEntryInput",
+            "fields": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "givenName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "familyName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "metadata": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                },
+                "action": {
+                    "typeCategory": "enum",
+                    "typeName": "ListEntryAction",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "PreviewEmailTemplateInput": {
+            "type": "object",
+            "name": "PreviewEmailTemplateInput",
+            "fields": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "contentId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "languageCode": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "toAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isEmail",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "metadata": {
+                    "name": "JSON",
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": true,
+                    "validation": []
+                },
+                "withEngagement": {
+                    "name": "Boolean",
+                    "typeCategory": "scalar",
+                    "typeName": "Boolean",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isBoolean",
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "CreateEmailTemplateInput": {
+            "type": "object",
+            "name": "CreateEmailTemplateInput",
+            "fields": {
+                "alias": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                24
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "connectToAutomationKey": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "title": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "description": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "content": {
+                    "typeCategory": "object",
+                    "typeName": "CreateEmailTemplateContentInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "CreateEmailTemplateContentInput": {
+            "type": "object",
+            "name": "CreateEmailTemplateContentInput",
+            "fields": {
+                "notes": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "subject": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "body": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "contentFormat": {
+                    "name": "EmailContentFormat",
+                    "typeCategory": "enum",
+                    "typeName": "EmailContentFormat",
+                    "nullable": true,
+                    "validation": []
+                },
+                "languageCode": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "metadata": {
+                    "name": "EmailTemplateMetadataInput",
+                    "typeCategory": "object",
+                    "typeName": "EmailTemplateMetadataInput",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "EmailTemplateMetadataInput": {
+            "type": "object",
+            "name": "EmailTemplateMetadataInput",
+            "fields": {
+                "mediaAssets": {
+                    "typeCategory": "object",
+                    "typeName": "EmailTemplateMediaMetadataInput",
+                    "nullable": false,
+                    "validation": []
+                },
+                "links": {
+                    "typeCategory": "object",
+                    "typeName": "EmailTemplateLinkMetadataInput",
+                    "nullable": false,
+                    "validation": []
+                },
+                "replaceableMarkups": {
+                    "typeCategory": "object",
+                    "typeName": "EmailTemplateReplaceableMarkupInput",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "EmailTemplateMediaMetadataInput": {
+            "type": "object",
+            "name": "EmailTemplateMediaMetadataInput",
+            "fields": {
+                "assetId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "replaceKey": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "EmailTemplateLinkMetadataInput": {
+            "type": "object",
+            "name": "EmailTemplateLinkMetadataInput",
+            "fields": {
+                "linkUrl": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "replaceKey": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "EmailTemplateReplaceableMarkupInput": {
+            "type": "object",
+            "name": "EmailTemplateReplaceableMarkupInput",
+            "fields": {
+                "markup": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "replaceKey": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "placeHoldValue": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "UpdateEmailTemplateInput": {
+            "type": "object",
+            "name": "UpdateEmailTemplateInput",
+            "fields": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "alias": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                24
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "title": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "description": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "status": {
+                    "name": "EmailTemplateStatus",
+                    "typeCategory": "enum",
+                    "typeName": "EmailTemplateStatus",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "EmailTemplateStatus": {
+            "type": "enum",
+            "name": "EmailTemplateStatus",
+            "description": "The status of an email template",
+            "values": {
+                "Draft": "Draft",
+                "Active": "Active",
+                "Inactive": "Inactive"
+            }
+        },
+        "UpsertEmailTemplateContentInput": {
+            "type": "object",
+            "name": "UpsertEmailTemplateContentInput",
+            "fields": {
+                "emailTemplateId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "referencedContentId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "notes": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "subject": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "body": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "contentFormat": {
+                    "name": "EmailContentFormat",
+                    "typeCategory": "enum",
+                    "typeName": "EmailContentFormat",
+                    "nullable": true,
+                    "validation": []
+                },
+                "languageCode": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "markCurrent": {
+                    "name": "Boolean",
+                    "typeCategory": "scalar",
+                    "typeName": "Boolean",
+                    "nullable": true,
+                    "validation": []
+                },
+                "metadata": {
+                    "name": "EmailTemplateMetadataInput",
+                    "typeCategory": "object",
+                    "typeName": "EmailTemplateMetadataInput",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "CreateEngagementEventInput": {
+            "type": "object",
+            "name": "CreateEngagementEventInput",
+            "fields": {
+                "name": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "deviceProperties": {
+                    "typeCategory": "object",
+                    "typeName": "DeviceProperties",
+                    "nullable": false,
+                    "validation": []
+                },
+                "clientProperties": {
+                    "name": "ClientProperties",
+                    "typeCategory": "object",
+                    "typeName": "ClientProperties",
+                    "nullable": true,
+                    "validation": []
+                },
+                "locale": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isLocale",
+                            "each": false
+                        }
+                    ]
+                },
+                "eventContext": {
+                    "name": "EngagementEventContext",
+                    "typeCategory": "object",
+                    "typeName": "EngagementEventContext",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "DeviceProperties": {
+            "type": "object",
+            "name": "DeviceProperties",
+            "fields": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "operatingSystemName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "operatingSystemVersion": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "cpu": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "memory": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "resolution": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "model": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "orientation": {
+                    "name": "DeviceOrientation",
+                    "typeCategory": "enum",
+                    "typeName": "DeviceOrientation",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "DeviceOrientation": {
+            "type": "enum",
+            "name": "DeviceOrientation",
+            "values": {
+                "Portrait": "Portrait",
+                "Landscape": "Landscape",
+                "NotAvailable": "NotAvailable"
+            }
+        },
+        "ClientProperties": {
+            "type": "object",
+            "name": "ClientProperties",
+            "fields": {
+                "environment": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "EngagementEventContext": {
+            "type": "object",
+            "name": "EngagementEventContext",
+            "fields": {
+                "viewIdentifier": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "viewTitle": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "previousViewIdentifier": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "previousViewTitle": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "referrer": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "loadDurationInMilliseconds": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                },
+                "viewDurationInMilliseconds": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                },
+                "previousViewDurationInMilliseconds": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                },
+                "sessionDurationInMilliseconds": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "WaitListCreationInput": {
+            "type": "object",
+            "name": "WaitListCreationInput",
+            "fields": {
+                "identifier": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                16
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "title": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "description": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailAutomationKey": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "WaitListUpdateInput": {
+            "type": "object",
+            "name": "WaitListUpdateInput",
+            "fields": {
+                "id": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "identifier": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                16
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "title": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                256
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "description": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                512
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "emailAutomationKey": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "maxLength",
+                            "constraints": [
+                                64
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        },
+        "PrincipleCreateInput": {
+            "type": "object",
+            "name": "PrincipleCreateInput",
+            "fields": {
+                "principleNumber": {
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": false,
+                    "validation": []
+                },
+                "principleContent": {
+                    "typeCategory": "object",
+                    "typeName": "PrincipleContentInput",
+                    "nullable": false,
+                    "validation": []
+                },
+                "author": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "PrincipleContentInput": {
+            "type": "object",
+            "name": "PrincipleContentInput",
+            "fields": {
+                "title": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "description": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "PrincipleUpdateInput": {
+            "type": "object",
+            "name": "PrincipleUpdateInput",
+            "fields": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "principleNumber": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                },
+                "principleContent": {
+                    "name": "PrincipleContentInput",
+                    "typeCategory": "object",
+                    "typeName": "PrincipleContentInput",
+                    "nullable": true,
+                    "validation": []
+                },
+                "author": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "PaginationInputWithFilters": {
+            "type": "object",
+            "name": "PaginationInputWithFilters",
+            "fields": {
+                "itemsPerPage": {
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": false,
+                    "validation": []
+                },
+                "itemIndex": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                },
+                "filters": {
+                    "typeCategory": "object",
+                    "typeName": "ColumnFilter",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "ColumnFilter": {
+            "type": "object",
+            "name": "ColumnFilter",
+            "fields": {
+                "operator": {
+                    "typeCategory": "enum",
+                    "typeName": "ColumnFilterConditionOperator",
+                    "nullable": false,
+                    "validation": []
+                },
+                "caseSensitive": {
+                    "name": "Boolean",
+                    "typeCategory": "scalar",
+                    "typeName": "Boolean",
+                    "nullable": true,
+                    "validation": []
+                },
+                "column": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "value": {
+                    "typeCategory": "scalar",
+                    "typeName": "JSON",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "ColumnFilterConditionOperator": {
+            "type": "enum",
+            "name": "ColumnFilterConditionOperator",
+            "description": "The operator of a field filter",
+            "values": {
+                "Equal": "Equal",
+                "NotEqual": "NotEqual",
+                "GreaterThan": "GreaterThan",
+                "GreaterThanOrEqual": "GreaterThanOrEqual",
+                "LessThan": "LessThan",
+                "LessThanOrEqual": "LessThanOrEqual",
+                "Like": "Like",
+                "NotLike": "NotLike",
+                "In": "In",
+                "NotIn": "NotIn",
+                "IsNull": "IsNull",
+                "IsNotNull": "IsNotNull"
+            }
+        },
+        "PaginationInput": {
+            "type": "object",
+            "name": "PaginationInput",
+            "fields": {
+                "itemsPerPage": {
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": false,
+                    "validation": []
+                },
+                "itemIndex": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "ColumnFilterGroup": {
+            "type": "object",
+            "name": "ColumnFilterGroup",
+            "fields": {
+                "operator": {
+                    "name": "ColumnFilterGroupOperator",
+                    "typeCategory": "enum",
+                    "typeName": "ColumnFilterGroupOperator",
+                    "nullable": true,
+                    "validation": []
+                },
+                "conditions": {
+                    "typeCategory": "object",
+                    "typeName": "ColumnFilter",
+                    "nullable": false,
+                    "validation": []
+                },
+                "filters": {
+                    "typeCategory": "object",
+                    "typeName": "ColumnFilterGroup",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "ColumnFilterGroupOperator": {
+            "type": "enum",
+            "name": "ColumnFilterGroupOperator",
+            "values": {
+                "And": "And",
+                "Or": "Or"
+            }
+        },
+        "OrderBy": {
+            "type": "object",
+            "name": "OrderBy",
+            "fields": {
+                "key": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "direction": {
+                    "name": "OrderByDirection",
+                    "typeCategory": "enum",
+                    "typeName": "OrderByDirection",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "OrderByDirection": {
+            "type": "enum",
+            "name": "OrderByDirection",
+            "description": "The order direction of a query",
+            "values": {
+                "Ascending": "Ascending",
+                "Descending": "Descending"
+            }
+        },
+        "DataInteractionDatabaseTableMetricsQueryInput": {
+            "type": "object",
+            "name": "DataInteractionDatabaseTableMetricsQueryInput",
+            "fields": {
+                "columnName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "startTime": {
+                    "name": "DateTimeISO",
+                    "typeCategory": "scalar",
+                    "typeName": "DateTimeISO",
+                    "nullable": true,
+                    "validation": []
+                },
+                "endTime": {
+                    "name": "DateTimeISO",
+                    "typeCategory": "scalar",
+                    "typeName": "DateTimeISO",
+                    "nullable": true,
+                    "validation": []
+                },
+                "timeIntervals": {
+                    "typeCategory": "enum",
+                    "typeName": "TimeInterval",
+                    "nullable": false,
+                    "validation": [
+                        {
+                            "type": "arrayNotEmpty",
+                            "each": false
+                        },
+                        {
+                            "type": "isArray",
+                            "each": false
+                        }
+                    ]
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                },
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false,
+                    "validation": []
+                }
+            }
+        },
+        "TimeInterval": {
+            "type": "enum",
+            "name": "TimeInterval",
+            "description": "Possible time intervals used to group time series data.",
+            "values": {
+                "Hour": "Hour",
+                "HourOfDay": "HourOfDay",
+                "Day": "Day",
+                "DayOfWeek": "DayOfWeek",
+                "DayOfMonth": "DayOfMonth",
+                "Month": "Month",
+                "MonthOfYear": "MonthOfYear",
+                "Quarter": "Quarter",
+                "Year": "Year"
+            }
+        },
+        "EngagementOverviewInput": {
+            "type": "object",
+            "name": "EngagementOverviewInput",
+            "fields": {
+                "startTime": {
+                    "name": "DateTimeISO",
+                    "typeCategory": "scalar",
+                    "typeName": "DateTimeISO",
+                    "nullable": true,
+                    "validation": []
+                },
+                "endTime": {
+                    "name": "DateTimeISO",
+                    "typeCategory": "scalar",
+                    "typeName": "DateTimeISO",
+                    "nullable": true,
+                    "validation": []
+                }
+            }
+        },
+        "QueryWaitListEntriesInput": {
+            "type": "object",
+            "name": "QueryWaitListEntriesInput",
+            "fields": {
+                "itemsPerPage": {
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": false,
+                    "validation": []
+                },
+                "itemIndex": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true,
+                    "validation": []
+                },
+                "startDate": {
+                    "name": "DateTimeISO",
+                    "typeCategory": "scalar",
+                    "typeName": "DateTimeISO",
+                    "nullable": true,
+                    "validation": []
+                },
+                "endDate": {
+                    "name": "DateTimeISO",
+                    "typeCategory": "scalar",
+                    "typeName": "DateTimeISO",
+                    "nullable": true,
+                    "validation": []
+                },
+                "dateColumn": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isIn",
+                            "constraints": [
+                                [
+                                    "contactedAt",
+                                    "notifiedAt",
+                                    "createdAt",
+                                    "updatedAt"
+                                ]
+                            ],
+                            "each": false
+                        }
+                    ]
+                },
+                "waitListIdentifier": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": []
+                },
+                "waitListId": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true,
+                    "validation": [
+                        {
+                            "type": "isUuid",
+                            "constraints": [
+                                null
+                            ],
+                            "each": false
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "mutations": {
+        "accountPasswordUpdate": {
+            "name": "accountPasswordUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "UpdateAccountPasswordInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountPasswordUpdateUsingCode": {
+            "name": "accountPasswordUpdateUsingCode",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "ResetCredentialInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountPasswordResetEmailRequest": {
+            "name": "accountPasswordResetEmailRequest",
+            "arguments": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "accountEmailAddressVerify": {
+            "name": "accountEmailAddressVerify",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "VerifyEmailInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountEmailAddressVerificationEmailRequest": {
+            "name": "accountEmailAddressVerificationEmailRequest",
+            "arguments": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "accountEmailAddressUpsert": {
+            "name": "accountEmailAddressUpsert",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "UpsertEmailInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountEmailAddressDelete": {
+            "name": "accountEmailAddressDelete",
+            "arguments": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "accountRoleGrant": {
+            "name": "accountRoleGrant",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "GrantAccountRoleInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountRoleRevoke": {
+            "name": "accountRoleRevoke",
+            "arguments": {
+                "roleId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "accountSignUp": {
+            "name": "accountSignUp",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "CreateAccountInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountSignIn": {
+            "name": "accountSignIn",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "SignInInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountSignInOrSignUpUsingCodeEmailRequest": {
+            "name": "accountSignInOrSignUpUsingCodeEmailRequest",
+            "arguments": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "accountSignInOrSignUpUsingCode": {
+            "name": "accountSignInOrSignUpUsingCode",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "SignInUsingCodeInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountSignOut": {
+            "name": "accountSignOut",
+            "arguments": {}
+        },
+        "accountProfileUpdate": {
+            "name": "accountProfileUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "UpdateProfileInput",
+                    "nullable": false
+                }
+            }
+        },
+        "accountProfileImageRemove": {
+            "name": "accountProfileImageRemove",
+            "arguments": {}
+        },
+        "contactCreate": {
+            "name": "contactCreate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "ContactCreateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "contactUpdate": {
+            "name": "contactUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "ContactUpdateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "contactFieldUpdate": {
+            "name": "contactFieldUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "ContactFieldUpdateInput",
+                    "nullable": false
+                },
+                "contactId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "contactDelete": {
+            "name": "contactDelete",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "dataInteractionDatabaseTableRowCreate": {
+            "name": "dataInteractionDatabaseTableRowCreate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "DataInteractionDatabaseTableRowCreateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "dataInteractionDatabaseTableRowDelete": {
+            "name": "dataInteractionDatabaseTableRowDelete",
+            "arguments": {
+                "ignoreOrphantCheck": {
+                    "name": "Boolean",
+                    "typeCategory": "scalar",
+                    "typeName": "Boolean",
+                    "nullable": true
+                },
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "dataInteractionDatabaseTableRowsDelete": {
+            "name": "dataInteractionDatabaseTableRowsDelete",
+            "arguments": {
+                "ignoreOrphantCheck": {
+                    "name": "Boolean",
+                    "typeCategory": "scalar",
+                    "typeName": "Boolean",
+                    "nullable": true
+                },
+                "ids": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "dataInteractionDatabaseTableRowUpdate": {
+            "name": "dataInteractionDatabaseTableRowUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "DataInteractionDatabaseTableRowUpdateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailAutomationUpsert": {
+            "name": "emailAutomationUpsert",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "UpsertEmailAutomationInput",
+                    "nullable": false
+                }
+            }
+        },
+        "sendEmail": {
+            "name": "sendEmail",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "SendEmailInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailCampaignCreate": {
+            "name": "emailCampaignCreate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "EmailCampaignCreateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailCampaignUpdate": {
+            "name": "emailCampaignUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "EmailCampaignUpdateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailCampaignEditEmailAddresses": {
+            "name": "emailCampaignEditEmailAddresses",
+            "arguments": {
+                "emailAddressInputs": {
+                    "typeCategory": "object",
+                    "typeName": "EmailCampaignEmailAddressUpdateInput",
+                    "nullable": false
+                },
+                "campaignId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailCampaignUpdateStatus": {
+            "name": "emailCampaignUpdateStatus",
+            "arguments": {
+                "status": {
+                    "typeCategory": "enum",
+                    "typeName": "EmailCampaignStatus",
+                    "nullable": false
+                },
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailCampaignStartStage": {
+            "name": "emailCampaignStartStage",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailListCreate": {
+            "name": "emailListCreate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "CreateEmailListInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailListUpdate": {
+            "name": "emailListUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "UpdateEmailListInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailTemplateImageAssetSetDescription": {
+            "name": "emailTemplateImageAssetSetDescription",
+            "arguments": {
+                "description": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailTemplateImageAssetDelete": {
+            "name": "emailTemplateImageAssetDelete",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailTemplatePreview": {
+            "name": "emailTemplatePreview",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "PreviewEmailTemplateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailTemplateCreate": {
+            "name": "emailTemplateCreate",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "CreateEmailTemplateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailTemplateUpdate": {
+            "name": "emailTemplateUpdate",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "UpdateEmailTemplateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailTemplateContentUpsert": {
+            "name": "emailTemplateContentUpsert",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "UpsertEmailTemplateContentInput",
+                    "nullable": false
+                }
+            }
+        },
+        "engagementEventCreate": {
+            "name": "engagementEventCreate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "CreateEngagementEventInput",
+                    "nullable": false
+                }
+            }
+        },
+        "engagementEventsCreate": {
+            "name": "engagementEventsCreate",
+            "arguments": {
+                "inputs": {
+                    "typeCategory": "object",
+                    "typeName": "CreateEngagementEventInput",
+                    "nullable": false
+                }
+            }
+        },
+        "waitListCreate": {
+            "name": "waitListCreate",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "WaitListCreationInput",
+                    "nullable": false
+                }
+            }
+        },
+        "waitListUpdate": {
+            "name": "waitListUpdate",
+            "arguments": {
+                "data": {
+                    "typeCategory": "object",
+                    "typeName": "WaitListUpdateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "waitListEntryCreate": {
+            "name": "waitListEntryCreate",
+            "arguments": {
+                "emailAddress": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "waitListIdentifier": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "principleReviewed": {
+            "name": "principleReviewed",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "principleCreate": {
+            "name": "principleCreate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "PrincipleCreateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "principleUpdate": {
+            "name": "principleUpdate",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "PrincipleUpdateInput",
+                    "nullable": false
+                }
+            }
+        },
+        "principleArchive": {
+            "name": "principleArchive",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        }
+    },
+    "queries": {
+        "accountEmailAddresses": {
+            "name": "accountEmailAddresses",
+            "arguments": {
+                "statuses": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "accountRoles": {
+            "name": "accountRoles",
+            "arguments": {
+                "statuses": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "accountCurrent": {
+            "name": "accountCurrent",
+            "arguments": {}
+        },
+        "accountProfileUsernameValidate": {
+            "name": "accountProfileUsernameValidate",
+            "arguments": {
+                "username": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "contact": {
+            "name": "contact",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "contacts": {
+            "name": "contacts",
+            "arguments": {
+                "input": {
+                    "name": "PaginationInputWithFilters",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInputWithFilters",
+                    "nullable": true
+                }
+            }
+        },
+        "dataInteractionDatabases": {
+            "name": "dataInteractionDatabases",
+            "arguments": {
+                "pagination": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "dataInteractionDatabaseTables": {
+            "name": "dataInteractionDatabaseTables",
+            "arguments": {
+                "databaseName": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true
+                },
+                "pagination": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "dataInteractionDatabaseTable": {
+            "name": "dataInteractionDatabaseTable",
+            "arguments": {
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "dataInteractionDatabaseTableRows": {
+            "name": "dataInteractionDatabaseTableRows",
+            "arguments": {
+                "filters": {
+                    "name": "ColumnFilterGroup",
+                    "typeCategory": "object",
+                    "typeName": "ColumnFilterGroup",
+                    "nullable": true
+                },
+                "orderBy": {
+                    "name": "OrderBy",
+                    "typeCategory": "object",
+                    "typeName": "OrderBy",
+                    "nullable": true
+                },
+                "pagination": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "dataInteractionDatabaseTableRow": {
+            "name": "dataInteractionDatabaseTableRow",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "tableName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                },
+                "databaseName": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "dataInteractionDatabaseTableMetrics": {
+            "name": "dataInteractionDatabaseTableMetrics",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "DataInteractionDatabaseTableMetricsQueryInput",
+                    "nullable": false
+                }
+            }
+        },
+        "emailAutomationBuiltInAvailable": {
+            "name": "emailAutomationBuiltInAvailable",
+            "arguments": {}
+        },
+        "emailAutomations": {
+            "name": "emailAutomations",
+            "arguments": {
+                "input": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "emailAutomation": {
+            "name": "emailAutomation",
+            "arguments": {
+                "automationKey": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailCampaigns": {
+            "name": "emailCampaigns",
+            "arguments": {
+                "input": {
+                    "name": "PaginationInputWithFilters",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInputWithFilters",
+                    "nullable": true
+                }
+            }
+        },
+        "emailCampaign": {
+            "name": "emailCampaign",
+            "arguments": {
+                "id": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailListEntries": {
+            "name": "emailListEntries",
+            "arguments": {
+                "pagination": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "emailListEntry": {
+            "name": "emailListEntry",
+            "arguments": {
+                "hashCode": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true
+                },
+                "emailAddress": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true
+                }
+            }
+        },
+        "emailLists": {
+            "name": "emailLists",
+            "arguments": {
+                "pagination": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "emailList": {
+            "name": "emailList",
+            "arguments": {
+                "identifier": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "emailTemplateImageAssets": {
+            "name": "emailTemplateImageAssets",
+            "arguments": {
+                "input": {
+                    "name": "PaginationInputWithFilters",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInputWithFilters",
+                    "nullable": true
+                }
+            }
+        },
+        "emailTemplates": {
+            "name": "emailTemplates",
+            "arguments": {
+                "input": {
+                    "name": "PaginationInputWithFilters",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInputWithFilters",
+                    "nullable": true
+                }
+            }
+        },
+        "emailTemplate": {
+            "name": "emailTemplate",
+            "arguments": {
+                "id": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true
+                },
+                "alias": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true
+                }
+            }
+        },
+        "emailTemplateContentEngagementMetrics": {
+            "name": "emailTemplateContentEngagementMetrics",
+            "arguments": {
+                "emailTemplateContentId": {
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": false
+                }
+            }
+        },
+        "engagementEvents": {
+            "name": "engagementEvents",
+            "arguments": {}
+        },
+        "engagementOverview": {
+            "name": "engagementOverview",
+            "arguments": {
+                "live": {
+                    "name": "Boolean",
+                    "typeCategory": "scalar",
+                    "typeName": "Boolean",
+                    "nullable": true
+                },
+                "input": {
+                    "name": "EngagementOverviewInput",
+                    "typeCategory": "object",
+                    "typeName": "EngagementOverviewInput",
+                    "nullable": true
+                }
+            }
+        },
+        "waitLists": {
+            "name": "waitLists",
+            "arguments": {
+                "input": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "waitListEntries": {
+            "name": "waitListEntries",
+            "arguments": {
+                "input": {
+                    "typeCategory": "object",
+                    "typeName": "QueryWaitListEntriesInput",
+                    "nullable": false
+                }
+            }
+        },
+        "principles": {
+            "name": "principles",
+            "arguments": {
+                "orderBy": {
+                    "name": "OrderBy",
+                    "typeCategory": "object",
+                    "typeName": "OrderBy",
+                    "nullable": true
+                },
+                "input": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "principle": {
+            "name": "principle",
+            "arguments": {
+                "principleNumber": {
+                    "name": "Int",
+                    "typeCategory": "scalar",
+                    "typeName": "Int",
+                    "nullable": true
+                },
+                "id": {
+                    "name": "String",
+                    "typeCategory": "scalar",
+                    "typeName": "String",
+                    "nullable": true
+                }
+            }
+        },
+        "principleReviewHistories": {
+            "name": "principleReviewHistories",
+            "arguments": {
+                "orderBy": {
+                    "name": "OrderBy",
+                    "typeCategory": "object",
+                    "typeName": "OrderBy",
+                    "nullable": true
+                },
+                "input": {
+                    "name": "PaginationInput",
+                    "typeCategory": "object",
+                    "typeName": "PaginationInput",
+                    "nullable": true
+                }
+            }
+        },
+        "principleMagicDice": {
+            "name": "principleMagicDice",
+            "arguments": {}
+        }
+    }
+}

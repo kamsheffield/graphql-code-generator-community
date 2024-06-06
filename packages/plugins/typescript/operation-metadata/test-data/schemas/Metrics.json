@@ -1,0 +1,279 @@
+{
+    "types": {
+        "input": {
+            "String": {
+                "kind": "scalar",
+                "type": "String",
+                "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text."
+            },
+            "DateTimeISO": {
+                "kind": "scalar",
+                "type": "DateTimeISO",
+                "description": "A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format."
+            },
+            "Int": {
+                "kind": "scalar",
+                "type": "Int",
+                "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1."
+            },
+            "JSON": {
+                "kind": "scalar",
+                "type": "JSON",
+                "description": "The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."
+            },
+            "Boolean": {
+                "kind": "scalar",
+                "type": "Boolean",
+                "description": "The `Boolean` scalar type represents `true` or `false`."
+            },
+            "EngagementOverviewInput": {
+                "kind": "object",
+                "type": "EngagementOverviewInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "DateTimeISO",
+                        "required": false,
+                        "name": "startTime"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "DateTimeISO",
+                        "required": false,
+                        "name": "endTime"
+                    }
+                ]
+            },
+            "CreateEngagementEventInput": {
+                "kind": "object",
+                "type": "CreateEngagementEventInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "name",
+                        "validation": [
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    64
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "object",
+                        "type": "DeviceProperties",
+                        "required": true,
+                        "name": "deviceProperties"
+                    },
+                    {
+                        "kind": "object",
+                        "type": "ClientProperties",
+                        "required": false,
+                        "name": "clientProperties"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "locale",
+                        "validation": [
+                            {
+                                "type": "isLocale"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "object",
+                        "type": "EngagementEventContext",
+                        "required": false,
+                        "name": "eventContext"
+                    }
+                ]
+            },
+            "DeviceProperties": {
+                "kind": "object",
+                "type": "DeviceProperties",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "id",
+                        "validation": [
+                            {
+                                "type": "isUuid"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "operatingSystemName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "operatingSystemVersion"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "cpu"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "memory"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "resolution"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "model"
+                    },
+                    {
+                        "kind": "enum",
+                        "type": "DeviceOrientation",
+                        "required": false,
+                        "name": "orientation"
+                    }
+                ]
+            },
+            "DeviceOrientation": {
+                "kind": "enum",
+                "type": "DeviceOrientation",
+                "values": [
+                    "Portrait",
+                    "Landscape",
+                    "NotAvailable"
+                ]
+            },
+            "ClientProperties": {
+                "kind": "object",
+                "type": "ClientProperties",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "environment"
+                    }
+                ]
+            },
+            "EngagementEventContext": {
+                "kind": "object",
+                "type": "EngagementEventContext",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "viewIdentifier"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "viewTitle"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "previousViewIdentifier"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "previousViewTitle"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "referrer"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "Int",
+                        "required": false,
+                        "name": "loadDurationInMilliseconds"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "Int",
+                        "required": false,
+                        "name": "viewDurationInMilliseconds"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "Int",
+                        "required": false,
+                        "name": "previousViewDurationInMilliseconds"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "Int",
+                        "required": false,
+                        "name": "sessionDurationInMilliseconds"
+                    }
+                ]
+            },
+            "__TypeKind": {
+                "kind": "enum",
+                "type": "__TypeKind",
+                "description": "An enum describing what kind of type a given `__Type` is.",
+                "values": [
+                    "SCALAR",
+                    "OBJECT",
+                    "INTERFACE",
+                    "UNION",
+                    "ENUM",
+                    "INPUT_OBJECT",
+                    "LIST",
+                    "NON_NULL"
+                ]
+            },
+            "__DirectiveLocation": {
+                "kind": "enum",
+                "type": "__DirectiveLocation",
+                "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+                "values": [
+                    "QUERY",
+                    "MUTATION",
+                    "SUBSCRIPTION",
+                    "FIELD",
+                    "FRAGMENT_DEFINITION",
+                    "FRAGMENT_SPREAD",
+                    "INLINE_FRAGMENT",
+                    "VARIABLE_DEFINITION",
+                    "SCHEMA",
+                    "SCALAR",
+                    "OBJECT",
+                    "FIELD_DEFINITION",
+                    "ARGUMENT_DEFINITION",
+                    "INTERFACE",
+                    "UNION",
+                    "ENUM",
+                    "ENUM_VALUE",
+                    "INPUT_OBJECT",
+                    "INPUT_FIELD_DEFINITION"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,654 @@
+{
+    "types": {
+        "input": {
+            "String": {
+                "kind": "scalar",
+                "type": "String",
+                "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text."
+            },
+            "DateTimeISO": {
+                "kind": "scalar",
+                "type": "DateTimeISO",
+                "description": "A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format."
+            },
+            "AccountEmailStatus": {
+                "kind": "enum",
+                "type": "AccountEmailStatus",
+                "description": "The status of an account email",
+                "values": [
+                    "Active",
+                    "Deleted"
+                ]
+            },
+            "AccountEmailSource": {
+                "kind": "enum",
+                "type": "AccountEmailSource",
+                "description": "The source of an account email",
+                "values": [
+                    "SignUp",
+                    "Oauth",
+                    "AuthenticationUrl",
+                    "UserInput"
+                ]
+            },
+            "AccountEmailType": {
+                "kind": "enum",
+                "type": "AccountEmailType",
+                "description": "The type of an account email",
+                "values": [
+                    "Primary",
+                    "Secondary"
+                ]
+            },
+            "Boolean": {
+                "kind": "scalar",
+                "type": "Boolean",
+                "description": "The `Boolean` scalar type represents `true` or `false`."
+            },
+            "AccountStatus": {
+                "kind": "enum",
+                "type": "AccountStatus",
+                "description": "The status of an account",
+                "values": [
+                    "Active",
+                    "Inactive",
+                    "Deleted",
+                    "Pending"
+                ]
+            },
+            "MediaObjectType": {
+                "kind": "enum",
+                "type": "MediaObjectType",
+                "values": [
+                    "Image",
+                    "Video"
+                ]
+            },
+            "AccountSessionStatus": {
+                "kind": "enum",
+                "type": "AccountSessionStatus",
+                "description": "The status of an account session",
+                "values": [
+                    "Active",
+                    "Revoked",
+                    "Expired"
+                ]
+            },
+            "AccountSessionMethod": {
+                "kind": "enum",
+                "type": "AccountSessionMethod",
+                "description": "The method of an account session",
+                "values": [
+                    "Password",
+                    "Oauth",
+                    "AuthenticationUrl"
+                ]
+            },
+            "AccessRoleType": {
+                "kind": "enum",
+                "type": "AccessRoleType",
+                "description": "The role type of an access",
+                "values": [
+                    "Administrator",
+                    "User"
+                ]
+            },
+            "AccountRoleStatus": {
+                "kind": "enum",
+                "type": "AccountRoleStatus",
+                "description": "The status of an account role",
+                "values": [
+                    "Active",
+                    "Expired",
+                    "Revoked"
+                ]
+            },
+            "AccountEmailVerificationStatus": {
+                "kind": "enum",
+                "type": "AccountEmailVerificationStatus",
+                "description": "The verification status of an account email",
+                "values": [
+                    "Pending",
+                    "Verified",
+                    "Unverified"
+                ]
+            },
+            "Float": {
+                "kind": "scalar",
+                "type": "Float",
+                "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."
+            },
+            "UniqueFieldValidationResult": {
+                "kind": "enum",
+                "type": "UniqueFieldValidationResult",
+                "values": [
+                    "Available",
+                    "Taken",
+                    "Invalid",
+                    "Forbidden"
+                ]
+            },
+            "UpdateAccountPasswordInput": {
+                "kind": "object",
+                "type": "UpdateAccountPasswordInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "currentPassword",
+                        "validation": [
+                            {
+                                "type": "minLength",
+                                "constraints": [
+                                    8
+                                ]
+                            },
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    30
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "newPassword",
+                        "validation": [
+                            {
+                                "type": "minLength",
+                                "constraints": [
+                                    8
+                                ]
+                            },
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    30
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "ResetCredentialInput": {
+                "kind": "object",
+                "type": "ResetCredentialInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "code",
+                        "validation": [
+                            {
+                                "type": "isLength",
+                                "constraints": [
+                                    16
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "emailAddress",
+                        "validation": [
+                            {
+                                "type": "isEmail"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "password",
+                        "validation": [
+                            {
+                                "type": "minLength",
+                                "constraints": [
+                                    8
+                                ]
+                            },
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    90
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "VerifyEmailInput": {
+                "kind": "object",
+                "type": "VerifyEmailInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "code",
+                        "validation": [
+                            {
+                                "type": "isLength",
+                                "constraints": [
+                                    16
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "emailAddress",
+                        "validation": [
+                            {
+                                "type": "isEmail"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "UpsertEmailInput": {
+                "kind": "object",
+                "type": "UpsertEmailInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "emailAddress",
+                        "validation": [
+                            {
+                                "type": "isEmail"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "Boolean",
+                        "required": true,
+                        "name": "markAsPrimary"
+                    }
+                ]
+            },
+            "GrantAccountRoleInput": {
+                "kind": "object",
+                "type": "GrantAccountRoleInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "DateTimeISO",
+                        "required": false,
+                        "name": "expiresAt",
+                        "validation": [
+                            {
+                                "type": "isDateString"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "roleType"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "accountId",
+                        "validation": [
+                            {
+                                "type": "isUuid"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "emailAddress",
+                        "validation": [
+                            {
+                                "type": "isEmail"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "CreateAccountInput": {
+                "kind": "object",
+                "type": "CreateAccountInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "emailAddress",
+                        "validation": [
+                            {
+                                "type": "isEmail"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "password",
+                        "validation": [
+                            {
+                                "type": "minLength",
+                                "constraints": [
+                                    8
+                                ]
+                            },
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    90
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "username",
+                        "validation": [
+                            {
+                                "type": "isLength",
+                                "constraints": [
+                                    3,
+                                    32
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "givenName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "familyName"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "phoneNumber",
+                        "validation": [
+                            {
+                                "type": "isPhoneNumber"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "object",
+                        "type": "AccountEncryptionConfiguration",
+                        "required": false,
+                        "name": "encryptionConfiguration"
+                    }
+                ]
+            },
+            "AccountEncryptionConfiguration": {
+                "kind": "object",
+                "type": "AccountEncryptionConfiguration",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "transitKeyId"
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "publicKey"
+                    }
+                ]
+            },
+            "SignInInput": {
+                "kind": "object",
+                "type": "SignInInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "emailAddress",
+                        "validation": [
+                            {
+                                "type": "isEmail"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "password",
+                        "validation": [
+                            {
+                                "type": "minLength",
+                                "constraints": [
+                                    8
+                                ]
+                            },
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    90
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "object",
+                        "type": "AccountEncryptionConfiguration",
+                        "required": false,
+                        "name": "encryptionConfiguration"
+                    }
+                ]
+            },
+            "SignInUsingCodeInput": {
+                "kind": "object",
+                "type": "SignInUsingCodeInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "emailAddress",
+                        "validation": [
+                            {
+                                "type": "isEmail"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": true,
+                        "name": "code",
+                        "validation": [
+                            {
+                                "type": "isLength",
+                                "constraints": [
+                                    24
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "object",
+                        "type": "AccountEncryptionConfiguration",
+                        "required": false,
+                        "name": "encryptionConfiguration"
+                    }
+                ]
+            },
+            "UpdateProfileInput": {
+                "kind": "object",
+                "type": "UpdateProfileInput",
+                "fields": [
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "username",
+                        "validation": [
+                            {
+                                "type": "isLength",
+                                "constraints": [
+                                    3,
+                                    32
+                                ]
+                            },
+                            {
+                                "type": "isString"
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "displayName",
+                        "validation": [
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    128
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "givenName",
+                        "validation": [
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    128
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "familyName",
+                        "validation": [
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    128
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "middleName",
+                        "validation": [
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    128
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "preferredName",
+                        "validation": [
+                            {
+                                "type": "maxLength",
+                                "constraints": [
+                                    128
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "kind": "scalar",
+                        "type": "String",
+                        "required": false,
+                        "name": "phoneNumber",
+                        "validation": [
+                            {
+                                "type": "isPhoneNumber"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "__TypeKind": {
+                "kind": "enum",
+                "type": "__TypeKind",
+                "description": "An enum describing what kind of type a given `__Type` is.",
+                "values": [
+                    "SCALAR",
+                    "OBJECT",
+                    "INTERFACE",
+                    "UNION",
+                    "ENUM",
+                    "INPUT_OBJECT",
+                    "LIST",
+                    "NON_NULL"
+                ]
+            },
+            "__DirectiveLocation": {
+                "kind": "enum",
+                "type": "__DirectiveLocation",
+                "description": "A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.",
+                "values": [
+                    "QUERY",
+                    "MUTATION",
+                    "SUBSCRIPTION",
+                    "FIELD",
+                    "FRAGMENT_DEFINITION",
+                    "FRAGMENT_SPREAD",
+                    "INLINE_FRAGMENT",
+                    "VARIABLE_DEFINITION",
+                    "SCHEMA",
+                    "SCALAR",
+                    "OBJECT",
+                    "FIELD_DEFINITION",
+                    "ARGUMENT_DEFINITION",
+                    "INTERFACE",
+                    "UNION",
+                    "ENUM",
+                    "ENUM_VALUE",
+                    "INPUT_OBJECT",
+                    "INPUT_FIELD_DEFINITION"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,110 @@
+# Account Current Query
+query AccountCurrent {
+    accountCurrent {
+        id
+        createdAt
+        updatedAt
+        status
+        primaryEmailAddress {
+            id
+            createdAt
+            updatedAt
+            emailAddress
+            status
+            source
+            type
+            isVerified
+            accountId
+        }
+        currentSession {
+            id
+            createdAt
+            updatedAt
+            status
+            method
+            token
+            device
+            lastIpAddress
+            lastLocation
+            expiresAt
+            lastUsed
+            currentProfileId
+        }
+        currentProfile {
+            id
+            createdAt
+            updatedAt
+            username
+            displayName
+            givenName
+            familyName
+            phoneNumber
+            imageUrls {
+                url
+                variant
+            }
+        }
+        roles {
+            id
+            createdAt
+            updatedAt
+            createdByAccountId
+            createdByProfileId
+            updatedByAccountId
+            updatedByProfileId
+            expiresAt
+            roleType
+            status
+        }
+    }
+}
+
+# Account Profile Update Mutation
+mutation AccountProfileUpdate($input: UpdateProfileInput!) {
+    accountProfileUpdate(input: $input) {
+        id
+        username
+        givenName
+        preferredName
+        middleName
+        familyName
+        displayName
+        phoneNumber
+        imageUrls {
+            url
+            variant
+        }
+        updatedAt
+        createdAt
+    }
+}
+
+# Account Sign In Using Email Address and Password Mutation
+mutation AccountSignIn($emailAddress: String!, $password: String!) {
+    accountSignIn(data: { emailAddress: $emailAddress, password: $password }) {
+        currentSession {
+            id
+            createdAt
+            updatedAt
+            status
+            method
+            token
+            device
+            lastIpAddress
+            lastLocation
+            expiresAt
+            lastUsed
+            currentProfileId
+        }
+    }
+}
+
+# Account Sign Out Mutation
+mutation AccountSignOut {
+    accountSignOut
+}
+
+# Account Profile Username Check Query
+query AccountProfileUsernameValidate($value: String!) {
+    accountProfileUsernameValidate(username: $value)
+}

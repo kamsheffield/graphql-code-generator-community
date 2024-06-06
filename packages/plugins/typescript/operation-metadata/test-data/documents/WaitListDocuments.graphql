@@ -1,0 +1,7 @@
+# Wait List Entry Create Mutation
+mutation WaitListEntryCreate($emailAddress: String!) {
+    waitListEntryCreate(emailAddress: $emailAddress, waitListIdentifier: "earlyAccess") {
+        id
+        emailAddress
+    }
+}

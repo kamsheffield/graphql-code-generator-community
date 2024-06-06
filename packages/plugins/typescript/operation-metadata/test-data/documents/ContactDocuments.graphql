@@ -1,0 +1,95 @@
+# Contacts Query
+query Contacts($pagination: PaginationInputWithFilters!) {
+    contacts(input: $pagination) {
+        items {
+            name
+            type
+            source
+            metadata
+            note
+            fields {
+                type
+                label
+                value
+            }
+        }
+        pagination {
+            itemIndex
+            itemIndexForPreviousPage
+            itemIndexForNextPage
+            itemsPerPage
+            itemsTotal
+            pagesTotal
+            page
+        }
+    }
+}
+
+# Get Single Contact by ID Query
+query Contact($id: String!) {
+    contact(id: $id) {
+        name
+        type
+        source
+        metadata
+        note
+        fields {
+            type
+            label
+            value
+        }
+    }
+}
+
+# Create a Contact
+mutation ContactCreate($input: ContactCreateInput!) {
+    contactCreate(input: $input) {
+        name
+        type
+        source
+        metadata
+        note
+        fields {
+            type
+            label
+            value
+        }
+    }
+}
+
+# Update a Contact metadata
+mutation ContactUpdate($input: ContactUpdateInput!) {
+    contactUpdate(input: $input) {
+        name
+        type
+        source
+        metadata
+        note
+        fields {
+            type
+            label
+            value
+        }
+    }
+}
+
+# Update a Contact metadata
+mutation ContactFieldUpdate($contactId: String!, $input: ContactFieldUpdateInput!) {
+    contactFieldUpdate(contactId: $contactId, input: $input) {
+        name
+        type
+        source
+        metadata
+        note
+        fields {
+            type
+            label
+            value
+        }
+    }
+}
+
+# Delete a Contact
+mutation ContactDelete($id: String!) {
+    contactDelete(id: $id)
+}

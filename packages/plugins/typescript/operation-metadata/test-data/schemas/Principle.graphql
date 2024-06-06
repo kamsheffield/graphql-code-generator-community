@@ -1,0 +1,106 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type Mutation {
+  principleArchive(id: String!): String!
+  principleCreate(input: PrincipleCreateInput!): Principle!
+  principleReviewed(id: String!): String!
+  principleUpdate(input: PrincipleUpdateInput!): Principle!
+}
+
+input OrderBy {
+  direction: OrderByDirection
+  key: String!
+}
+
+"""The order direction of a query"""
+enum OrderByDirection {
+  Ascending
+  Descending
+}
+
+type Pagination {
+  itemIndex: Int!
+  itemIndexForNextPage: Int
+  itemIndexForPreviousPage: Int
+  itemsPerPage: Int!
+  itemsTotal: Int!
+  page: Int!
+  pagesTotal: Int!
+}
+
+input PaginationInput {
+  itemIndex: Int
+  itemsPerPage: Int!
+}
+
+type Principle {
+  archived: Boolean
+  author: String
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  lastReviewedAt: DateTimeISO
+  pagedReviewHistories(input: PaginationInput): ReviewHistoryPaginationResult
+  principleContent: PrincipleContent!
+  principleNumber: Int!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type PrincipleContent {
+  description: [String!]!
+  title: String!
+}
+
+input PrincipleContentInput {
+  description: [String!]!
+  title: String!
+}
+
+input PrincipleCreateInput {
+  author: String
+  principleContent: PrincipleContentInput!
+  principleNumber: Int!
+}
+
+type PrinciplePaginationResult {
+  items: [Principle!]!
+  pagination: Pagination
+}
+
+type PrincipleReviewHistory {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  principle: Principle
+}
+
+input PrincipleUpdateInput {
+  author: String
+  id: String!
+  principleContent: PrincipleContentInput
+  principleNumber: Int
+}
+
+type Query {
+  principle(id: String, principleNumber: Int): Principle!
+  principleMagicDice: Principle!
+  principleReviewHistories(input: PaginationInput, orderBy: OrderBy): ReviewHistoryPaginationResult!
+  principles(input: PaginationInput, orderBy: OrderBy): PrinciplePaginationResult!
+}
+
+type ReviewHistoryPaginationResult {
+  items: [PrincipleReviewHistory!]!
+  pagination: Pagination
+}

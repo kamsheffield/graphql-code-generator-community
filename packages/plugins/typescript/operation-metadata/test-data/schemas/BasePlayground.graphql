@@ -1,0 +1,1222 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"""The role type of an access"""
+enum AccessRoleType {
+  Administrator
+  User
+}
+
+type Account {
+  createdAt: DateTimeISO!
+  currentProfile: Profile
+  currentSession: AccountSession
+  defaultProfile: Profile
+  defaultProfileId: String
+  emailAddresses: [AccountEmail!]!
+  id: String!
+  primaryEmailAddress: AccountEmail
+  roles: [AccountRole!]!
+  sessions: [AccountSession!]!
+  status: AccountStatus!
+  updatedAt: DateTimeISO!
+}
+
+type AccountEmail {
+  account: Account
+  accountId: String!
+  createdAt: DateTimeISO!
+  emailAddress: String!
+  id: String!
+  isVerified: Boolean!
+  source: AccountEmailSource!
+  status: AccountEmailStatus!
+  type: AccountEmailType!
+  updatedAt: DateTimeISO!
+  verifications: [AccountEmailVerification!]
+}
+
+type AccountEmailAddressesResult {
+  count: Float!
+  emailAddresses: [AccountEmail!]!
+}
+
+"""The source of an account email"""
+enum AccountEmailSource {
+  AuthenticationUrl
+  Oauth
+  SignUp
+  UserInput
+}
+
+"""The status of an account email"""
+enum AccountEmailStatus {
+  Active
+  Deleted
+}
+
+"""The type of an account email"""
+enum AccountEmailType {
+  Primary
+  Secondary
+}
+
+type AccountEmailVerification {
+  code: String!
+  createdAt: DateTimeISO!
+  email: AccountEmail!
+  emailId: String!
+  id: String!
+  status: AccountEmailVerificationStatus!
+  updatedAt: DateTimeISO!
+  verifiedAt: DateTimeISO!
+}
+
+"""The verification status of an account email"""
+enum AccountEmailVerificationStatus {
+  Pending
+  Unverified
+  Verified
+}
+
+input AccountEncryptionConfiguration {
+  publicKey: String!
+  transitKeyId: String!
+}
+
+type AccountRole {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  expiresAt: DateTimeISO
+  id: String!
+  roleType: AccessRoleType!
+  status: AccountRoleStatus!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+"""The status of an account role"""
+enum AccountRoleStatus {
+  Active
+  Expired
+  Revoked
+}
+
+type AccountSession {
+  createdAt: DateTimeISO!
+  currentProfileId: String!
+  device: String
+  expiresAt: DateTimeISO!
+  id: String!
+  lastIpAddress: String
+  lastLocation: String
+  lastUsed: DateTimeISO
+  method: AccountSessionMethod!
+  status: AccountSessionStatus!
+  token: String!
+  updatedAt: DateTimeISO!
+}
+
+"""The method of an account session"""
+enum AccountSessionMethod {
+  AuthenticationUrl
+  Oauth
+  Password
+}
+
+"""The status of an account session"""
+enum AccountSessionStatus {
+  Active
+  Expired
+  Revoked
+}
+
+"""The status of an account"""
+enum AccountStatus {
+  Active
+  Deleted
+  Inactive
+  Pending
+}
+
+type AvailableMetadata {
+  dataType: String!
+  key: String!
+}
+
+input AvailableMetadataInput {
+  dataType: String!
+  key: String!
+}
+
+type CampaignDeliveryStage {
+  completedAt: DateTimeISO
+  emailTemplateContentId: String
+  emailTemplateId: String
+  emailsSent: Int
+  indexId: Int!
+  percentSent: Int
+  percentToSend: Int!
+  stageStatus: CampaignDeliveryStageStatus!
+  startedAt: DateTimeISO
+}
+
+"""The status of the delivery stage"""
+enum CampaignDeliveryStageStatus {
+  Complete
+  InProgress
+  NotStarted
+  PausingForError
+}
+
+input ClientProperties {
+  environment: String
+}
+
+input ColumnFilter {
+  caseSensitive: Boolean
+  column: String!
+  operator: ColumnFilterConditionOperator!
+  value: JSON!
+}
+
+"""The operator of a field filter"""
+enum ColumnFilterConditionOperator {
+  Equal
+  GreaterThan
+  GreaterThanOrEqual
+  In
+  IsNotNull
+  IsNull
+  LessThan
+  LessThanOrEqual
+  Like
+  NotEqual
+  NotIn
+  NotLike
+}
+
+input ColumnFilterGroup {
+  conditions: [ColumnFilter!]
+  filters: [ColumnFilterGroup!]
+  operator: ColumnFilterGroupOperator
+}
+
+enum ColumnFilterGroupOperator {
+  And
+  Or
+}
+
+type Contact {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  fields: [ContactField!]
+  id: String!
+  metadata: JSON!
+  name: String!
+  note: String
+  source: String!
+  type: ContactType!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+input ContactCreateInput {
+  fields: [ContactFieldCreateInput!]
+  metadata: JSON
+  name: String!
+  note: String
+  source: String!
+  type: ContactType!
+}
+
+type ContactField {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  label: String
+  type: ContactFieldType!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+  value: JSON!
+}
+
+input ContactFieldCreateInput {
+  label: String
+  type: ContactFieldType!
+  value: JSON!
+}
+
+"""Type of contact field"""
+enum ContactFieldType {
+  EmailAddress
+  PhoneNumber
+  StreetAddress
+}
+
+input ContactFieldUpdateInput {
+  action: ListEntryAction!
+  id: String
+  label: String
+  type: ContactFieldType
+  value: JSON
+}
+
+"""Type of contact"""
+enum ContactType {
+  Company
+  Person
+}
+
+input ContactUpdateInput {
+  id: String!
+  metadata: JSON
+  name: String
+  note: String
+  source: String
+}
+
+input CreateAccountInput {
+  emailAddress: String!
+  encryptionConfiguration: AccountEncryptionConfiguration
+  familyName: String
+  givenName: String
+  password: String!
+  phoneNumber: String
+  username: String
+}
+
+input CreateEmailListEntryInput {
+  emailAddress: String!
+  familyName: String
+  givenName: String
+  metadata: JSON
+}
+
+input CreateEmailListInput {
+  entries: [CreateEmailListEntryInput!]!
+  identifier: String
+  title: String!
+}
+
+input CreateEmailTemplateContentInput {
+  body: String!
+  contentFormat: EmailContentFormat
+  languageCode: String
+  metadata: EmailTemplateMetadataInput
+  notes: String
+  subject: String!
+}
+
+input CreateEmailTemplateInput {
+  alias: String
+  connectToAutomationKey: String
+  content: CreateEmailTemplateContentInput!
+  description: String
+  title: String!
+}
+
+input CreateEngagementEventInput {
+  clientProperties: ClientProperties
+  deviceProperties: DeviceProperties!
+  eventContext: EngagementEventContext
+  locale: String
+  name: String!
+}
+
+type DataInteractionDatabaseMetrics {
+  data: [JSON!]!
+  timeInterval: TimeInterval!
+}
+
+input DataInteractionDatabaseRelationInput {
+  data: JSON
+  fieldName: String!
+  id: String
+  inverseFieldName: String
+  inverseTableName: String
+  inverseType: String
+  tableName: String!
+  type: String!
+}
+
+input DataInteractionDatabaseTableMetricsQueryInput {
+  columnName: String!
+  databaseName: String!
+  endTime: DateTimeISO
+  startTime: DateTimeISO
+  tableName: String!
+  timeIntervals: [TimeInterval!]
+}
+
+input DataInteractionDatabaseTableRowCreateInput {
+  data: JSON!
+  databaseName: String!
+  relationData: [DataInteractionDatabaseRelationInput!]
+  tableName: String!
+}
+
+input DataInteractionDatabaseTableRowUpdateInput {
+  data: JSON
+  databaseName: String!
+  id: String
+  tableName: String!
+}
+
+type DatabaseTableColumn {
+  isGenerated: Boolean!
+  isKey: Boolean!
+  isNullable: Boolean!
+  isPrimaryKey: Boolean!
+  keyTableName: String
+  length: String!
+  name: String!
+  possibleValues: [String!]
+  type: String!
+}
+
+type DatabaseTableMetadata {
+  columns: [DatabaseTableColumn!]
+  databaseName: String!
+  items: [JSON!]
+  pagination: Pagination
+  relations: [DatabaseTableRelation!]
+  rowCount: Int!
+  tableName: String!
+}
+
+type DatabaseTableRelation {
+  fieldName: String!
+  inverseFieldName: String
+  inverseTableName: String
+  inverseType: String
+  joinColumns: [String!]
+  tableName: String!
+  type: String!
+}
+
+type DatabaseTableRowData {
+  columns: [DatabaseTableColumn!]
+  databaseName: String!
+  item: JSON
+  relations: [DatabaseTableRelation!]
+  tableName: String!
+}
+
+type DatabaseTablesResult {
+  items: [DatabaseTableMetadata!]!
+  pagination: Pagination
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type DatebaseMetadata {
+  databaseName: String!
+}
+
+enum DeviceOrientation {
+  Landscape
+  NotAvailable
+  Portrait
+}
+
+input DeviceProperties {
+  cpu: String
+  id: String!
+  memory: String
+  model: String
+  operatingSystemName: String
+  operatingSystemVersion: String
+  orientation: DeviceOrientation
+  resolution: String
+}
+
+type EmailAutomation {
+  automationKey: String!
+  availableMetadata: [AvailableMetadata!]
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  description: String
+  emailTemplate: EmailTemplate
+  emailTemplateId: String
+  fromEmail: String!
+  fromName: String!
+  id: String!
+  subject: String!
+  type: EmailAutomationType!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailAutomationResult {
+  items: [EmailAutomation!]!
+  pagination: Pagination
+}
+
+"""Email automation type"""
+enum EmailAutomationType {
+  BuiltIn
+  Custom
+}
+
+type EmailCampaign {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  currentStageIndexId: Int!
+  deliveryStages: [CampaignDeliveryStage!]!
+  description: String
+  fromEmail: String!
+  fromName: String!
+  id: String!
+  pagedEmailAddresses(pagination: PaginationInput): PagedEmailCampaignEmailAddress
+  status: EmailCampaignStatus!
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+input EmailCampaignCreateInput {
+  description: String
+  emailAddressInputs: [EmailCampaignEmailAddressInput!]
+  emailListInputs: [EmailCampaignEmailListInput!]
+  emailTemplateContentId: String
+  emailTemplateId: String
+  fromEmail: String!
+  fromName: String!
+  stageInputs: [EmailCampaignStageInput!]!
+  title: String!
+}
+
+type EmailCampaignEmailAddress {
+  createdAt: DateTimeISO!
+  emailAddress: String!
+  emailContent: EmailCampaignEmailContent
+  id: String!
+  presetSendStage: Int
+  sendAttempts: Int
+  sentAt: DateTimeISO
+  sentStage: Int
+  status: EmailCampaignEmailAddressStatus!
+  statusDescription: String
+  updatedAt: DateTimeISO!
+}
+
+input EmailCampaignEmailAddressInput {
+  emailAddress: String!
+  presetSendStage: Int
+}
+
+"""The status of an email address in an email campaign"""
+enum EmailCampaignEmailAddressStatus {
+  Pending
+  PermanentFailure
+  SendFailed
+  Sent
+}
+
+input EmailCampaignEmailAddressUpdateInput {
+  action: ListEntryAction!
+  emailAddress: String!
+  presetSendStage: Int
+}
+
+type EmailCampaignEmailContent {
+  content: String!
+  contentFormat: EmailContentFormat!
+  fromEmailAddress: String!
+  fromName: String!
+  subject: String!
+}
+
+input EmailCampaignEmailListInput {
+  emailListId: String!
+  presetSendStage: Int
+}
+
+input EmailCampaignStageInput {
+  emailTemplateContentId: String
+  emailTemplateId: String
+  indexId: Int!
+  percentToSend: Int!
+}
+
+input EmailCampaignStageUpdateInput {
+  action: ListEntryAction!
+  emailTemplateContentId: String
+  emailTemplateId: String
+  indexId: Int!
+  percentToSend: Int
+}
+
+"""The status of the email campaign"""
+enum EmailCampaignStatus {
+  Active
+  Archive
+  Complete
+  Draft
+  InProgress
+}
+
+input EmailCampaignUpdateInput {
+  id: String!
+  newDescription: String
+  newFromEmail: String
+  newFromName: String
+  newTitle: String
+  stagesToUpdate: [EmailCampaignStageUpdateInput!]
+}
+
+"""The format of an email content"""
+enum EmailContentFormat {
+  HTML
+  Plain
+}
+
+type EmailList {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  identifier: String!
+  pagedEmailListEntries(pagination: PaginationInput): PagedEmailListEntries
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailListEntry {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  emailAddress: String!
+  familyName: String
+  givenName: String
+  hashCode: String!
+  id: String!
+  metadata: JSON
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailTemplate {
+  alias: String!
+  contentHistory: [EmailTemplateContent!]!
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  currentContent: EmailTemplateContent
+  currentVersion: Float!
+  description: String
+  id: String!
+  status: EmailTemplateStatus!
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailTemplateContent {
+  activatedAt: DateTimeISO
+  body: String!
+  contentFormat: EmailContentFormat!
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  languageCode: String!
+  metadata: EmailTemplateMetadataObject
+  notes: String
+  subject: String!
+  version: Float!
+}
+
+type EmailTemplateContentEngagementMetrics {
+  links: [EmailTemplateContentLinkEngagementMetrics!]!
+  opened: Int!
+  openedUnique: Int!
+  sent: Int!
+  sentError: Int!
+  sentErrorUnique: Int!
+  sentUnique: Int!
+}
+
+type EmailTemplateContentLinkEngagementMetrics {
+  clicked: Int!
+  clickedUnique: Int!
+  url: String!
+}
+
+type EmailTemplateImageAsset {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  description: String
+  id: String!
+  imageUrl: String!
+}
+
+type EmailTemplateImageAssetsResult {
+  items: [EmailTemplateImageAsset!]!
+  pagination: Pagination
+}
+
+input EmailTemplateLinkMetadataInput {
+  linkUrl: String!
+  replaceKey: String!
+}
+
+type EmailTemplateLinkMetadataObject {
+  linkUrl: String!
+  replaceKey: String!
+}
+
+input EmailTemplateMediaMetadataInput {
+  assetId: String!
+  replaceKey: String
+}
+
+type EmailTemplateMediaMetadataObject {
+  assetId: String!
+  replaceKey: String
+}
+
+input EmailTemplateMetadataInput {
+  links: [EmailTemplateLinkMetadataInput!]!
+  mediaAssets: [EmailTemplateMediaMetadataInput!]!
+  replaceableMarkups: [EmailTemplateReplaceableMarkupInput!]!
+}
+
+type EmailTemplateMetadataObject {
+  links: [EmailTemplateLinkMetadataObject!]!
+  mediaAssets: [EmailTemplateMediaMetadataObject!]!
+  replaceableMarkups: [EmailTemplateReplaceableMarkupObject!]!
+}
+
+input EmailTemplateReplaceableMarkupInput {
+  markup: String!
+  placeHoldValue: String!
+  replaceKey: String!
+}
+
+type EmailTemplateReplaceableMarkupObject {
+  markup: String!
+  placeHoldValue: String!
+  replaceKey: String!
+}
+
+"""The status of an email template"""
+enum EmailTemplateStatus {
+  Active
+  Draft
+  Inactive
+}
+
+type EmailTemplatesResult {
+  items: [EmailTemplate!]!
+  pagination: Pagination
+}
+
+type EngagementEvent {
+  createdAt: DateTimeISO!
+  id: String!
+  name: String!
+}
+
+input EngagementEventContext {
+  loadDurationInMilliseconds: Int
+  previousViewDurationInMilliseconds: Int
+  previousViewIdentifier: String
+  previousViewTitle: String
+  referrer: String
+  sessionDurationInMilliseconds: Int
+  viewDurationInMilliseconds: Int
+  viewIdentifier: String
+  viewTitle: String
+}
+
+type EngagementLocationOverview {
+  countryCode: String
+  latitude: String
+  longitude: String
+  uniqueDeviceCount: Int!
+}
+
+type EngagementOverview {
+  deviceCategoryPercentages: JSON!
+  locations: [EngagementLocationOverview!]!
+  uniqueDeviceIds: Int!
+  views: [EngagementViewOverview!]!
+}
+
+input EngagementOverviewInput {
+  endTime: DateTimeISO
+  startTime: DateTimeISO
+}
+
+type EngagementViewOverview {
+  uniqueDeviceCount: Int!
+  viewIdentifier: String
+}
+
+input GrantAccountRoleInput {
+  accountId: String
+  emailAddress: String
+  expiresAt: DateTimeISO
+  roleType: String!
+}
+
+type ImageObject {
+  type: MediaObjectType!
+  url: String!
+  variant: String
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+enum ListEntryAction {
+  Add
+  Remove
+  Update
+}
+
+enum MediaObjectType {
+  Image
+  Video
+}
+
+type Mutation {
+  accountEmailAddressDelete(emailAddress: String!): String!
+  accountEmailAddressUpsert(input: UpsertEmailInput!): AccountEmail!
+  accountEmailAddressVerificationEmailRequest(emailAddress: String!): String!
+  accountEmailAddressVerify(data: VerifyEmailInput!): String!
+  accountPasswordResetEmailRequest(emailAddress: String!): String!
+  accountPasswordUpdate(input: UpdateAccountPasswordInput!): String!
+  accountPasswordUpdateUsingCode(input: ResetCredentialInput!): String!
+  accountProfileImageRemove: Profile!
+  accountProfileUpdate(input: UpdateProfileInput!): Profile!
+  accountRoleGrant(input: GrantAccountRoleInput!): AccountRole!
+  accountRoleRevoke(roleId: String!): Boolean!
+  accountSignIn(data: SignInInput!): Account
+  accountSignInOrSignUpUsingCode(data: SignInUsingCodeInput!): Account
+  accountSignInOrSignUpUsingCodeEmailRequest(emailAddress: String!): String!
+  accountSignOut: String!
+  accountSignUp(data: CreateAccountInput!): Account
+  contactCreate(input: ContactCreateInput!): Contact!
+  contactDelete(id: String!): Boolean!
+  contactFieldUpdate(contactId: String!, input: ContactFieldUpdateInput!): Contact!
+  contactUpdate(input: ContactUpdateInput!): Contact!
+  dataInteractionDatabaseTableRowCreate(input: DataInteractionDatabaseTableRowCreateInput!): JSON!
+  dataInteractionDatabaseTableRowDelete(databaseName: String!, id: String!, ignoreOrphantCheck: Boolean, tableName: String!): Boolean!
+  dataInteractionDatabaseTableRowUpdate(input: DataInteractionDatabaseTableRowUpdateInput!): JSON!
+  dataInteractionDatabaseTableRowsDelete(databaseName: String!, ids: [String!]!, ignoreOrphantCheck: Boolean, tableName: String!): Int!
+  emailAutomationUpsert(input: UpsertEmailAutomationInput!): EmailAutomation!
+  emailCampaignCreate(input: EmailCampaignCreateInput!): EmailCampaign!
+  emailCampaignEditEmailAddresses(campaignId: String!, emailAddressInputs: [EmailCampaignEmailAddressUpdateInput!]!): EmailCampaign!
+  emailCampaignStartStage(id: String!): EmailCampaign!
+  emailCampaignUpdate(input: EmailCampaignUpdateInput!): EmailCampaign!
+  emailCampaignUpdateStatus(id: String!, status: EmailCampaignStatus!): EmailCampaign!
+  emailListCreate(input: CreateEmailListInput!): EmailList!
+  emailListUpdate(input: UpdateEmailListInput!): EmailList!
+  emailTemplateContentUpsert(data: UpsertEmailTemplateContentInput!): EmailTemplate!
+  emailTemplateCreate(data: CreateEmailTemplateInput!): EmailTemplate!
+  emailTemplateImageAssetDelete(id: String!): Boolean!
+  emailTemplateImageAssetSetDescription(description: String!, id: String!): EmailTemplateImageAsset!
+  emailTemplatePreview(input: PreviewEmailTemplateInput!): String!
+  emailTemplateUpdate(data: UpdateEmailTemplateInput!): EmailTemplate!
+  engagementEventCreate(input: CreateEngagementEventInput!): Boolean!
+  engagementEventsCreate(inputs: [CreateEngagementEventInput!]!): Boolean!
+  principleArchive(id: String!): String!
+  principleCreate(input: PrincipleCreateInput!): Principle!
+  principleReviewed(id: String!): String!
+  principleUpdate(input: PrincipleUpdateInput!): Principle!
+  sendEmail(
+    """The data to send an email"""
+    data: SendEmailInput!
+  ): String!
+  waitListCreate(data: WaitListCreationInput!): WaitList!
+  waitListEntryCreate(emailAddress: String!, waitListIdentifier: String!): WaitListEntry!
+  waitListUpdate(data: WaitListUpdateInput!): WaitList!
+}
+
+input OrderBy {
+  direction: OrderByDirection
+  key: String!
+}
+
+"""The order direction of a query"""
+enum OrderByDirection {
+  Ascending
+  Descending
+}
+
+type PagedContactResult {
+  items: [Contact!]!
+  pagination: Pagination
+}
+
+type PagedDatabasesResult {
+  items: [DatebaseMetadata!]!
+  pagination: Pagination
+}
+
+type PagedEmailCampaignEmailAddress {
+  items: [EmailCampaignEmailAddress!]!
+  pagination: Pagination
+}
+
+type PagedEmailCampaigns {
+  items: [EmailCampaign!]!
+  pagination: Pagination
+}
+
+type PagedEmailListEntries {
+  items: [EmailListEntry!]!
+  pagination: Pagination
+}
+
+type PagedEmailLists {
+  items: [EmailList!]!
+  pagination: Pagination
+}
+
+type Pagination {
+  itemIndex: Int!
+  itemIndexForNextPage: Int
+  itemIndexForPreviousPage: Int
+  itemsPerPage: Int!
+  itemsTotal: Int!
+  page: Int!
+  pagesTotal: Int!
+}
+
+input PaginationInput {
+  itemIndex: Int
+  itemsPerPage: Int!
+}
+
+input PaginationInputWithFilters {
+  filters: [ColumnFilter!]
+  itemIndex: Int
+  itemsPerPage: Int!
+}
+
+input PreviewEmailTemplateInput {
+  contentId: String
+  id: String!
+  languageCode: String!
+  metadata: JSON
+  toAddress: String!
+  withEngagement: Boolean
+}
+
+type Principle {
+  archived: Boolean
+  author: String
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  lastReviewedAt: DateTimeISO
+  pagedReviewHistories(input: PaginationInput): ReviewHistoryPaginationResult
+  principleContent: PrincipleContent!
+  principleNumber: Int!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type PrincipleContent {
+  description: [String!]!
+  title: String!
+}
+
+input PrincipleContentInput {
+  description: [String!]!
+  title: String!
+}
+
+input PrincipleCreateInput {
+  author: String
+  principleContent: PrincipleContentInput!
+  principleNumber: Int!
+}
+
+type PrinciplePaginationResult {
+  items: [Principle!]!
+  pagination: Pagination
+}
+
+type PrincipleReviewHistory {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  principle: Principle
+}
+
+input PrincipleUpdateInput {
+  author: String
+  id: String!
+  principleContent: PrincipleContentInput
+  principleNumber: Int
+}
+
+type Profile {
+  createdAt: DateTimeISO!
+  displayName: String
+  familyName: String
+  givenName: String
+  id: String!
+  imageUrls: [ImageObject!]
+  middleName: String
+  phoneNumber: String
+  preferredName: String
+  updatedAt: DateTimeISO!
+  username: String!
+}
+
+type Query {
+  accountCurrent: Account
+  accountEmailAddresses(statuses: [String!]!): AccountEmailAddressesResult!
+  accountProfileUsernameValidate(username: String!): UniqueFieldValidationResult!
+  accountRoles(statuses: [String!]): [AccountRole!]!
+  contact(id: String!): Contact!
+  contacts(input: PaginationInputWithFilters): PagedContactResult!
+  dataInteractionDatabaseTable(databaseName: String!, tableName: String!): DatabaseTableMetadata!
+  dataInteractionDatabaseTableMetrics(input: DataInteractionDatabaseTableMetricsQueryInput!): [DataInteractionDatabaseMetrics!]!
+  dataInteractionDatabaseTableRow(databaseName: String!, id: String!, tableName: String!): DatabaseTableRowData!
+  dataInteractionDatabaseTableRows(databaseName: String!, filters: ColumnFilterGroup, orderBy: OrderBy, pagination: PaginationInput, tableName: String!): DatabaseTableMetadata!
+  dataInteractionDatabaseTables(databaseName: String, pagination: PaginationInput): DatabaseTablesResult!
+  dataInteractionDatabases(pagination: PaginationInput): PagedDatabasesResult!
+  emailAutomation(automationKey: String!): EmailAutomation!
+  emailAutomationBuiltInAvailable: [EmailAutomation!]!
+  emailAutomations(input: PaginationInput): EmailAutomationResult!
+  emailCampaign(id: String!): EmailCampaign!
+  emailCampaigns(input: PaginationInputWithFilters): PagedEmailCampaigns!
+  emailList(identifier: String!): EmailList!
+  emailListEntries(pagination: PaginationInput): PagedEmailLists!
+  emailListEntry(emailAddress: String, hashCode: String): EmailList!
+  emailLists(pagination: PaginationInput): PagedEmailLists!
+  emailTemplate(alias: String, id: String): EmailTemplate!
+  emailTemplateContentEngagementMetrics(emailTemplateContentId: String!): EmailTemplateContentEngagementMetrics!
+  emailTemplateImageAssets(input: PaginationInputWithFilters): EmailTemplateImageAssetsResult!
+  emailTemplates(input: PaginationInputWithFilters): EmailTemplatesResult!
+  engagementEvents: [EngagementEvent!]!
+  engagementOverview(input: EngagementOverviewInput, live: Boolean): EngagementOverview!
+  principle(id: String, principleNumber: Int): Principle!
+  principleMagicDice: Principle!
+  principleReviewHistories(input: PaginationInput, orderBy: OrderBy): ReviewHistoryPaginationResult!
+  principles(input: PaginationInput, orderBy: OrderBy): PrinciplePaginationResult!
+  waitListEntries(input: QueryWaitListEntriesInput!): WaitListEntriesResult!
+  waitLists(input: PaginationInput): WaitListResult!
+}
+
+input QueryWaitListEntriesInput {
+  dateColumn: String
+  endDate: DateTimeISO
+  itemIndex: Int
+  itemsPerPage: Int!
+  startDate: DateTimeISO
+  waitListId: String
+  waitListIdentifier: String
+}
+
+input ResetCredentialInput {
+  code: String!
+  emailAddress: String!
+  password: String!
+}
+
+type ReviewHistoryPaginationResult {
+  items: [PrincipleReviewHistory!]!
+  pagination: Pagination
+}
+
+input SendEmailInput {
+  content: String!
+  contentFormat: EmailContentFormat
+  fromAddress: String
+  fromName: String
+  subject: String!
+  toAddress: String!
+}
+
+input SignInInput {
+  emailAddress: String!
+  encryptionConfiguration: AccountEncryptionConfiguration
+  password: String!
+}
+
+input SignInUsingCodeInput {
+  code: String!
+  emailAddress: String!
+  encryptionConfiguration: AccountEncryptionConfiguration
+}
+
+"""Possible time intervals used to group time series data."""
+enum TimeInterval {
+  Day
+  DayOfMonth
+  DayOfWeek
+  Hour
+  HourOfDay
+  Month
+  MonthOfYear
+  Quarter
+  Year
+}
+
+enum UniqueFieldValidationResult {
+  Available
+  Forbidden
+  Invalid
+  Taken
+}
+
+input UpdateAccountPasswordInput {
+  currentPassword: String
+  newPassword: String!
+}
+
+input UpdateEmailListEntryInput {
+  action: ListEntryAction!
+  emailAddress: String!
+  familyName: String
+  givenName: String
+  metadata: JSON
+}
+
+input UpdateEmailListInput {
+  emailListEntryInputs: [UpdateEmailListEntryInput!]
+  id: String!
+  newIdentifier: String
+  newTitle: String
+}
+
+input UpdateEmailTemplateInput {
+  alias: String
+  description: String
+  id: String!
+  status: EmailTemplateStatus
+  title: String
+}
+
+input UpdateProfileInput {
+  displayName: String
+  familyName: String
+  givenName: String
+  middleName: String
+  phoneNumber: String
+  preferredName: String
+  username: String
+}
+
+input UpsertEmailAutomationInput {
+  automationKey: String!
+  availableMetadata: [AvailableMetadataInput!]
+  description: String
+  emailTemplateId: String
+  fromEmail: String
+  fromName: String
+  subject: String
+}
+
+input UpsertEmailInput {
+  emailAddress: String!
+  markAsPrimary: Boolean!
+}
+
+input UpsertEmailTemplateContentInput {
+  body: String
+  contentFormat: EmailContentFormat
+  emailTemplateId: String!
+  languageCode: String
+  markCurrent: Boolean
+  metadata: EmailTemplateMetadataInput
+  notes: String
+  referencedContentId: String
+  subject: String
+}
+
+input VerifyEmailInput {
+  code: String!
+  emailAddress: String!
+}
+
+type WaitList {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  description: String
+  emailAutomation: EmailAutomation
+  id: String!
+  identifier: String!
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+input WaitListCreationInput {
+  description: String
+  emailAutomationKey: String
+  identifier: String
+  title: String!
+}
+
+type WaitListEntriesResult {
+  items: [WaitListEntry!]!
+  pagination: Pagination
+}
+
+type WaitListEntry {
+  accountId: String
+  contactedAt: DateTimeISO
+  countryCode: String
+  createdAt: DateTimeISO!
+  emailAddress: String!
+  id: String!
+  ipAddress: String
+  message: String
+  name: String
+  notifiedAt: DateTimeISO
+  profileId: String
+  referredBy: String
+  updatedAt: DateTimeISO!
+  userAgent: String
+  waitList: WaitList
+  waitListId: String!
+}
+
+type WaitListResult {
+  items: [WaitList!]!
+  pagination: Pagination
+}
+
+input WaitListUpdateInput {
+  description: String
+  emailAutomationKey: String
+  id: String
+  identifier: String
+  title: String
+}

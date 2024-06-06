@@ -1,0 +1,200 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AvailableMetadata {
+  dataType: String!
+  key: String!
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type EmailAutomation {
+  automationKey: String!
+  availableMetadata: [AvailableMetadata!]
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  description: String
+  emailTemplate: EmailTemplate
+  emailTemplateId: String
+  fromEmail: String!
+  fromName: String!
+  id: String!
+  subject: String!
+  type: EmailAutomationType!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+"""Email automation type"""
+enum EmailAutomationType {
+  BuiltIn
+  Custom
+}
+
+"""The format of an email content"""
+enum EmailContentFormat {
+  HTML
+  Plain
+}
+
+type EmailTemplate {
+  alias: String!
+  contentHistory: [EmailTemplateContent!]!
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  currentContent: EmailTemplateContent
+  currentVersion: Float!
+  description: String
+  id: String!
+  status: EmailTemplateStatus!
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailTemplateContent {
+  activatedAt: DateTimeISO
+  body: String!
+  contentFormat: EmailContentFormat!
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  languageCode: String!
+  metadata: EmailTemplateMetadataObject
+  notes: String
+  subject: String!
+  version: Float!
+}
+
+type EmailTemplateLinkMetadataObject {
+  linkUrl: String!
+  replaceKey: String!
+}
+
+type EmailTemplateMediaMetadataObject {
+  assetId: String!
+  replaceKey: String
+}
+
+type EmailTemplateMetadataObject {
+  links: [EmailTemplateLinkMetadataObject!]!
+  mediaAssets: [EmailTemplateMediaMetadataObject!]!
+  replaceableMarkups: [EmailTemplateReplaceableMarkupObject!]!
+}
+
+type EmailTemplateReplaceableMarkupObject {
+  markup: String!
+  placeHoldValue: String!
+  replaceKey: String!
+}
+
+"""The status of an email template"""
+enum EmailTemplateStatus {
+  Active
+  Draft
+  Inactive
+}
+
+type Mutation {
+  waitListCreate(data: WaitListCreationInput!): WaitList!
+  waitListEntryCreate(emailAddress: String!, waitListIdentifier: String!): WaitListEntry!
+  waitListUpdate(data: WaitListUpdateInput!): WaitList!
+}
+
+type Pagination {
+  itemIndex: Int!
+  itemIndexForNextPage: Int
+  itemIndexForPreviousPage: Int
+  itemsPerPage: Int!
+  itemsTotal: Int!
+  page: Int!
+  pagesTotal: Int!
+}
+
+input PaginationInput {
+  itemIndex: Int
+  itemsPerPage: Int!
+}
+
+type Query {
+  waitListEntries(input: QueryWaitListEntriesInput!): WaitListEntriesResult!
+  waitLists(input: PaginationInput): WaitListResult!
+}
+
+input QueryWaitListEntriesInput {
+  dateColumn: String
+  endDate: DateTimeISO
+  itemIndex: Int
+  itemsPerPage: Int!
+  startDate: DateTimeISO
+  waitListId: String
+  waitListIdentifier: String
+}
+
+type WaitList {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  description: String
+  emailAutomation: EmailAutomation
+  id: String!
+  identifier: String!
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+input WaitListCreationInput {
+  description: String
+  emailAutomationKey: String
+  identifier: String
+  title: String!
+}
+
+type WaitListEntriesResult {
+  items: [WaitListEntry!]!
+  pagination: Pagination
+}
+
+type WaitListEntry {
+  accountId: String
+  contactedAt: DateTimeISO
+  countryCode: String
+  createdAt: DateTimeISO!
+  emailAddress: String!
+  id: String!
+  ipAddress: String
+  message: String
+  name: String
+  notifiedAt: DateTimeISO
+  profileId: String
+  referredBy: String
+  updatedAt: DateTimeISO!
+  userAgent: String
+  waitList: WaitList
+  waitListId: String!
+}
+
+type WaitListResult {
+  items: [WaitList!]!
+  pagination: Pagination
+}
+
+input WaitListUpdateInput {
+  description: String
+  emailAutomationKey: String
+  id: String
+  identifier: String
+  title: String
+}

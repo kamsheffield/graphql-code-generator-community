@@ -1,0 +1,196 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+input ColumnFilter {
+  caseSensitive: Boolean
+  column: String!
+  operator: ColumnFilterConditionOperator!
+  value: JSON!
+}
+
+"""The operator of a field filter"""
+enum ColumnFilterConditionOperator {
+  Equal
+  GreaterThan
+  GreaterThanOrEqual
+  In
+  IsNotNull
+  IsNull
+  LessThan
+  LessThanOrEqual
+  Like
+  NotEqual
+  NotIn
+  NotLike
+}
+
+input ColumnFilterGroup {
+  conditions: [ColumnFilter!]
+  filters: [ColumnFilterGroup!]
+  operator: ColumnFilterGroupOperator
+}
+
+enum ColumnFilterGroupOperator {
+  And
+  Or
+}
+
+type DataInteractionDatabaseMetrics {
+  data: [JSON!]!
+  timeInterval: TimeInterval!
+}
+
+input DataInteractionDatabaseRelationInput {
+  data: JSON
+  fieldName: String!
+  id: String
+  inverseFieldName: String
+  inverseTableName: String
+  inverseType: String
+  tableName: String!
+  type: String!
+}
+
+input DataInteractionDatabaseTableMetricsQueryInput {
+  columnName: String!
+  databaseName: String!
+  endTime: DateTimeISO
+  startTime: DateTimeISO
+  tableName: String!
+  timeIntervals: [TimeInterval!]
+}
+
+input DataInteractionDatabaseTableRowCreateInput {
+  data: JSON!
+  databaseName: String!
+  relationData: [DataInteractionDatabaseRelationInput!]
+  tableName: String!
+}
+
+input DataInteractionDatabaseTableRowUpdateInput {
+  data: JSON
+  databaseName: String!
+  id: String
+  tableName: String!
+}
+
+type DatabaseTableColumn {
+  isGenerated: Boolean!
+  isKey: Boolean!
+  isNullable: Boolean!
+  isPrimaryKey: Boolean!
+  keyTableName: String
+  length: String!
+  name: String!
+  possibleValues: [String!]
+  type: String!
+}
+
+type DatabaseTableMetadata {
+  columns: [DatabaseTableColumn!]
+  databaseName: String!
+  items: [JSON!]
+  pagination: Pagination
+  relations: [DatabaseTableRelation!]
+  rowCount: Int!
+  tableName: String!
+}
+
+type DatabaseTableRelation {
+  fieldName: String!
+  inverseFieldName: String
+  inverseTableName: String
+  inverseType: String
+  joinColumns: [String!]
+  tableName: String!
+  type: String!
+}
+
+type DatabaseTableRowData {
+  columns: [DatabaseTableColumn!]
+  databaseName: String!
+  item: JSON
+  relations: [DatabaseTableRelation!]
+  tableName: String!
+}
+
+type DatabaseTablesResult {
+  items: [DatabaseTableMetadata!]!
+  pagination: Pagination
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type DatebaseMetadata {
+  databaseName: String!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type Mutation {
+  dataInteractionDatabaseTableRowCreate(input: DataInteractionDatabaseTableRowCreateInput!): JSON!
+  dataInteractionDatabaseTableRowDelete(databaseName: String!, id: String!, ignoreOrphantCheck: Boolean, tableName: String!): Boolean!
+  dataInteractionDatabaseTableRowUpdate(input: DataInteractionDatabaseTableRowUpdateInput!): JSON!
+  dataInteractionDatabaseTableRowsDelete(databaseName: String!, ids: [String!]!, ignoreOrphantCheck: Boolean, tableName: String!): Int!
+}
+
+input OrderBy {
+  direction: OrderByDirection
+  key: String!
+}
+
+"""The order direction of a query"""
+enum OrderByDirection {
+  Ascending
+  Descending
+}
+
+type PagedDatabasesResult {
+  items: [DatebaseMetadata!]!
+  pagination: Pagination
+}
+
+type Pagination {
+  itemIndex: Int!
+  itemIndexForNextPage: Int
+  itemIndexForPreviousPage: Int
+  itemsPerPage: Int!
+  itemsTotal: Int!
+  page: Int!
+  pagesTotal: Int!
+}
+
+input PaginationInput {
+  itemIndex: Int
+  itemsPerPage: Int!
+}
+
+type Query {
+  dataInteractionDatabaseTable(databaseName: String!, tableName: String!): DatabaseTableMetadata!
+  dataInteractionDatabaseTableMetrics(input: DataInteractionDatabaseTableMetricsQueryInput!): [DataInteractionDatabaseMetrics!]!
+  dataInteractionDatabaseTableRow(databaseName: String!, id: String!, tableName: String!): DatabaseTableRowData!
+  dataInteractionDatabaseTableRows(databaseName: String!, filters: ColumnFilterGroup, orderBy: OrderBy, pagination: PaginationInput, tableName: String!): DatabaseTableMetadata!
+  dataInteractionDatabaseTables(databaseName: String, pagination: PaginationInput): DatabaseTablesResult!
+  dataInteractionDatabases(pagination: PaginationInput): PagedDatabasesResult!
+}
+
+"""Possible time intervals used to group time series data."""
+enum TimeInterval {
+  Day
+  DayOfMonth
+  DayOfWeek
+  Hour
+  HourOfDay
+  Month
+  MonthOfYear
+  Quarter
+  Year
+}

@@ -1,0 +1,43 @@
+# Engagement Event Create Mutation
+mutation EngagementEventCreate($input: CreateEngagementEventInput) {
+    engagementEventCreate(input: $input)
+}
+
+mutation EngagementEventCreate1($input: CreateEngagementEventInput!) {
+    engagementEventCreate(input: $input)
+}
+
+# Engagement Events Create Mutation
+mutation EngagementEventsCreate1($input: [CreateEngagementEventInput]) {
+    engagementEventsCreate(inputs: $input)
+}
+
+mutation EngagementEventsCreate2($input: [CreateEngagementEventInput!]) {
+    engagementEventsCreate(inputs: $input)
+}
+
+mutation EngagementEventsCreate3($input: [CreateEngagementEventInput]!) {
+    engagementEventsCreate(inputs: $input)
+}
+
+mutation EngagementEventsCreate4($input: [CreateEngagementEventInput!]!) {
+    engagementEventsCreate(inputs: $input)
+}
+
+# Engagement Overview Query
+query EngagementOverview {
+    engagementOverview {
+        uniqueDeviceIds
+        views {
+            uniqueDeviceCount
+            viewIdentifier
+        }
+        locations {
+            uniqueDeviceCount
+            countryCode
+            latitude
+            longitude
+        }
+        deviceCategoryPercentages
+    }
+}

@@ -1,0 +1,535 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AvailableMetadata {
+  dataType: String!
+  key: String!
+}
+
+input AvailableMetadataInput {
+  dataType: String!
+  key: String!
+}
+
+type CampaignDeliveryStage {
+  completedAt: DateTimeISO
+  emailTemplateContentId: String
+  emailTemplateId: String
+  emailsSent: Int
+  indexId: Int!
+  percentSent: Int
+  percentToSend: Int!
+  stageStatus: CampaignDeliveryStageStatus!
+  startedAt: DateTimeISO
+}
+
+"""The status of the delivery stage"""
+enum CampaignDeliveryStageStatus {
+  Complete
+  InProgress
+  NotStarted
+  PausingForError
+}
+
+input ColumnFilter {
+  caseSensitive: Boolean
+  column: String!
+  operator: ColumnFilterConditionOperator!
+  value: JSON!
+}
+
+"""The operator of a field filter"""
+enum ColumnFilterConditionOperator {
+  Equal
+  GreaterThan
+  GreaterThanOrEqual
+  In
+  IsNotNull
+  IsNull
+  LessThan
+  LessThanOrEqual
+  Like
+  NotEqual
+  NotIn
+  NotLike
+}
+
+input CreateEmailListEntryInput {
+  emailAddress: String!
+  familyName: String
+  givenName: String
+  metadata: JSON
+}
+
+input CreateEmailListInput {
+  entries: [CreateEmailListEntryInput!]!
+  identifier: String
+  title: String!
+}
+
+input CreateEmailTemplateContentInput {
+  body: String!
+  contentFormat: EmailContentFormat
+  languageCode: String
+  metadata: EmailTemplateMetadataInput
+  notes: String
+  subject: String!
+}
+
+input CreateEmailTemplateInput {
+  alias: String
+  connectToAutomationKey: String
+  content: CreateEmailTemplateContentInput!
+  description: String
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
+"""
+scalar DateTimeISO
+
+type EmailAutomation {
+  automationKey: String!
+  availableMetadata: [AvailableMetadata!]
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  description: String
+  emailTemplate: EmailTemplate
+  emailTemplateId: String
+  fromEmail: String!
+  fromName: String!
+  id: String!
+  subject: String!
+  type: EmailAutomationType!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailAutomationResult {
+  items: [EmailAutomation!]!
+  pagination: Pagination
+}
+
+"""Email automation type"""
+enum EmailAutomationType {
+  BuiltIn
+  Custom
+}
+
+type EmailCampaign {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  currentStageIndexId: Int!
+  deliveryStages: [CampaignDeliveryStage!]!
+  description: String
+  fromEmail: String!
+  fromName: String!
+  id: String!
+  pagedEmailAddresses(pagination: PaginationInput): PagedEmailCampaignEmailAddress
+  status: EmailCampaignStatus!
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+input EmailCampaignCreateInput {
+  description: String
+  emailAddressInputs: [EmailCampaignEmailAddressInput!]
+  emailListInputs: [EmailCampaignEmailListInput!]
+  emailTemplateContentId: String
+  emailTemplateId: String
+  fromEmail: String!
+  fromName: String!
+  stageInputs: [EmailCampaignStageInput!]!
+  title: String!
+}
+
+type EmailCampaignEmailAddress {
+  createdAt: DateTimeISO!
+  emailAddress: String!
+  emailContent: EmailCampaignEmailContent
+  id: String!
+  presetSendStage: Int
+  sendAttempts: Int
+  sentAt: DateTimeISO
+  sentStage: Int
+  status: EmailCampaignEmailAddressStatus!
+  statusDescription: String
+  updatedAt: DateTimeISO!
+}
+
+input EmailCampaignEmailAddressInput {
+  emailAddress: String!
+  presetSendStage: Int
+}
+
+"""The status of an email address in an email campaign"""
+enum EmailCampaignEmailAddressStatus {
+  Pending
+  PermanentFailure
+  SendFailed
+  Sent
+}
+
+input EmailCampaignEmailAddressUpdateInput {
+  action: ListEntryAction!
+  emailAddress: String!
+  presetSendStage: Int
+}
+
+type EmailCampaignEmailContent {
+  content: String!
+  contentFormat: EmailContentFormat!
+  fromEmailAddress: String!
+  fromName: String!
+  subject: String!
+}
+
+input EmailCampaignEmailListInput {
+  emailListId: String!
+  presetSendStage: Int
+}
+
+input EmailCampaignStageInput {
+  emailTemplateContentId: String
+  emailTemplateId: String
+  indexId: Int!
+  percentToSend: Int!
+}
+
+input EmailCampaignStageUpdateInput {
+  action: ListEntryAction!
+  emailTemplateContentId: String
+  emailTemplateId: String
+  indexId: Int!
+  percentToSend: Int
+}
+
+"""The status of the email campaign"""
+enum EmailCampaignStatus {
+  Active
+  Archive
+  Complete
+  Draft
+  InProgress
+}
+
+input EmailCampaignUpdateInput {
+  id: String!
+  newDescription: String
+  newFromEmail: String
+  newFromName: String
+  newTitle: String
+  stagesToUpdate: [EmailCampaignStageUpdateInput!]
+}
+
+"""The format of an email content"""
+enum EmailContentFormat {
+  HTML
+  Plain
+}
+
+type EmailList {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  identifier: String!
+  pagedEmailListEntries(pagination: PaginationInput): PagedEmailListEntries
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailListEntry {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  emailAddress: String!
+  familyName: String
+  givenName: String
+  hashCode: String!
+  id: String!
+  metadata: JSON
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailTemplate {
+  alias: String!
+  contentHistory: [EmailTemplateContent!]!
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  currentContent: EmailTemplateContent
+  currentVersion: Float!
+  description: String
+  id: String!
+  status: EmailTemplateStatus!
+  title: String!
+  updatedAt: DateTimeISO!
+  updatedByAccountId: String
+  updatedByProfileId: String
+}
+
+type EmailTemplateContent {
+  activatedAt: DateTimeISO
+  body: String!
+  contentFormat: EmailContentFormat!
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  id: String!
+  languageCode: String!
+  metadata: EmailTemplateMetadataObject
+  notes: String
+  subject: String!
+  version: Float!
+}
+
+type EmailTemplateContentEngagementMetrics {
+  links: [EmailTemplateContentLinkEngagementMetrics!]!
+  opened: Int!
+  openedUnique: Int!
+  sent: Int!
+  sentError: Int!
+  sentErrorUnique: Int!
+  sentUnique: Int!
+}
+
+type EmailTemplateContentLinkEngagementMetrics {
+  clicked: Int!
+  clickedUnique: Int!
+  url: String!
+}
+
+type EmailTemplateImageAsset {
+  createdAt: DateTimeISO!
+  createdByAccountId: String!
+  createdByProfileId: String!
+  description: String
+  id: String!
+  imageUrl: String!
+}
+
+type EmailTemplateImageAssetsResult {
+  items: [EmailTemplateImageAsset!]!
+  pagination: Pagination
+}
+
+input EmailTemplateLinkMetadataInput {
+  linkUrl: String!
+  replaceKey: String!
+}
+
+type EmailTemplateLinkMetadataObject {
+  linkUrl: String!
+  replaceKey: String!
+}
+
+input EmailTemplateMediaMetadataInput {
+  assetId: String!
+  replaceKey: String
+}
+
+type EmailTemplateMediaMetadataObject {
+  assetId: String!
+  replaceKey: String
+}
+
+input EmailTemplateMetadataInput {
+  links: [EmailTemplateLinkMetadataInput!]!
+  mediaAssets: [EmailTemplateMediaMetadataInput!]!
+  replaceableMarkups: [EmailTemplateReplaceableMarkupInput!]!
+}
+
+type EmailTemplateMetadataObject {
+  links: [EmailTemplateLinkMetadataObject!]!
+  mediaAssets: [EmailTemplateMediaMetadataObject!]!
+  replaceableMarkups: [EmailTemplateReplaceableMarkupObject!]!
+}
+
+input EmailTemplateReplaceableMarkupInput {
+  markup: String!
+  placeHoldValue: String!
+  replaceKey: String!
+}
+
+type EmailTemplateReplaceableMarkupObject {
+  markup: String!
+  placeHoldValue: String!
+  replaceKey: String!
+}
+
+"""The status of an email template"""
+enum EmailTemplateStatus {
+  Active
+  Draft
+  Inactive
+}
+
+type EmailTemplatesResult {
+  items: [EmailTemplate!]!
+  pagination: Pagination
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+enum ListEntryAction {
+  Add
+  Remove
+  Update
+}
+
+type Mutation {
+  emailAutomationUpsert(input: UpsertEmailAutomationInput!): EmailAutomation!
+  emailCampaignCreate(input: EmailCampaignCreateInput!): EmailCampaign!
+  emailCampaignEditEmailAddresses(campaignId: String!, emailAddressInputs: [EmailCampaignEmailAddressUpdateInput!]!): EmailCampaign!
+  emailCampaignStartStage(id: String!): EmailCampaign!
+  emailCampaignUpdate(input: EmailCampaignUpdateInput!): EmailCampaign!
+  emailCampaignUpdateStatus(id: String!, status: EmailCampaignStatus!): EmailCampaign!
+  emailListCreate(input: CreateEmailListInput!): EmailList!
+  emailListUpdate(input: UpdateEmailListInput!): EmailList!
+  emailTemplateContentUpsert(data: UpsertEmailTemplateContentInput!): EmailTemplate!
+  emailTemplateCreate(data: CreateEmailTemplateInput!): EmailTemplate!
+  emailTemplateImageAssetDelete(id: String!): Boolean!
+  emailTemplateImageAssetSetDescription(description: String!, id: String!): EmailTemplateImageAsset!
+  emailTemplatePreview(input: PreviewEmailTemplateInput!): String!
+  emailTemplateUpdate(data: UpdateEmailTemplateInput!): EmailTemplate!
+  sendEmail(
+    """The data to send an email"""
+    data: SendEmailInput!
+  ): String!
+}
+
+type PagedEmailCampaignEmailAddress {
+  items: [EmailCampaignEmailAddress!]!
+  pagination: Pagination
+}
+
+type PagedEmailCampaigns {
+  items: [EmailCampaign!]!
+  pagination: Pagination
+}
+
+type PagedEmailListEntries {
+  items: [EmailListEntry!]!
+  pagination: Pagination
+}
+
+type PagedEmailLists {
+  items: [EmailList!]!
+  pagination: Pagination
+}
+
+type Pagination {
+  itemIndex: Int!
+  itemIndexForNextPage: Int
+  itemIndexForPreviousPage: Int
+  itemsPerPage: Int!
+  itemsTotal: Int!
+  page: Int!
+  pagesTotal: Int!
+}
+
+input PaginationInput {
+  itemIndex: Int
+  itemsPerPage: Int!
+}
+
+input PaginationInputWithFilters {
+  filters: [ColumnFilter!]
+  itemIndex: Int
+  itemsPerPage: Int!
+}
+
+input PreviewEmailTemplateInput {
+  contentId: String
+  id: String!
+  languageCode: String!
+  metadata: JSON
+  toAddress: String!
+  withEngagement: Boolean
+}
+
+type Query {
+  emailAutomation(automationKey: String!): EmailAutomation!
+  emailAutomationBuiltInAvailable: [EmailAutomation!]!
+  emailAutomations(input: PaginationInput): EmailAutomationResult!
+  emailCampaign(id: String!): EmailCampaign!
+  emailCampaigns(input: PaginationInputWithFilters): PagedEmailCampaigns!
+  emailList(identifier: String!): EmailList!
+  emailListEntries(pagination: PaginationInput): PagedEmailLists!
+  emailListEntry(emailAddress: String, hashCode: String): EmailList!
+  emailLists(pagination: PaginationInput): PagedEmailLists!
+  emailTemplate(alias: String, id: String): EmailTemplate!
+  emailTemplateContentEngagementMetrics(emailTemplateContentId: String!): EmailTemplateContentEngagementMetrics!
+  emailTemplateImageAssets(input: PaginationInputWithFilters): EmailTemplateImageAssetsResult!
+  emailTemplates(input: PaginationInputWithFilters): EmailTemplatesResult!
+}
+
+input SendEmailInput {
+  content: String!
+  contentFormat: EmailContentFormat
+  fromAddress: String
+  fromName: String
+  subject: String!
+  toAddress: String!
+}
+
+input UpdateEmailListEntryInput {
+  action: ListEntryAction!
+  emailAddress: String!
+  familyName: String
+  givenName: String
+  metadata: JSON
+}
+
+input UpdateEmailListInput {
+  emailListEntryInputs: [UpdateEmailListEntryInput!]
+  id: String!
+  newIdentifier: String
+  newTitle: String
+}
+
+input UpdateEmailTemplateInput {
+  alias: String
+  description: String
+  id: String!
+  status: EmailTemplateStatus
+  title: String
+}
+
+input UpsertEmailAutomationInput {
+  automationKey: String!
+  availableMetadata: [AvailableMetadataInput!]
+  description: String
+  emailTemplateId: String
+  fromEmail: String
+  fromName: String
+  subject: String
+}
+
+input UpsertEmailTemplateContentInput {
+  body: String
+  contentFormat: EmailContentFormat
+  emailTemplateId: String!
+  languageCode: String
+  markCurrent: Boolean
+  metadata: EmailTemplateMetadataInput
+  notes: String
+  referencedContentId: String
+  subject: String
+}

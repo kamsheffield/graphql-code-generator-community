@@ -1,0 +1,122 @@
+# Databases Query
+query DataInteractionDatabases($pagination: PaginationInput) {
+    dataInteractionDatabases(pagination: $pagination) {
+        items {
+            databaseName
+        }
+        pagination {
+            itemIndex
+            itemIndexForPreviousPage
+            itemIndexForNextPage
+            itemsPerPage
+            itemsTotal
+            pagesTotal
+            page
+        }
+    }
+}
+
+# Database Table Query
+query DataInteractionDatabaseTable($databaseName: String!, $tableName: String!) {
+    dataInteractionDatabaseTable(databaseName: $databaseName, tableName: $tableName) {
+        databaseName
+        tableName
+        columns {
+            name
+            type
+            isKey
+            isPrimaryKey
+            keyTableName
+            possibleValues
+            isNullable
+            isGenerated
+            length
+        }
+        relations {
+            fieldName
+            type
+            tableName
+            inverseFieldName
+            inverseType
+            inverseTableName
+        }
+    }
+}
+
+# Database Table Metrics
+query DataInteractionDatabaseTableMetrics($input: DataInteractionDatabaseTableMetricsQueryInput!) {
+    dataInteractionDatabaseTableMetrics(input: $input) {
+        timeInterval
+        data
+    }
+}
+
+# Database Tables Query
+query DataInteractionDatabaseTables($databaseName: String, $pagination: PaginationInput) {
+    dataInteractionDatabaseTables(databaseName: $databaseName, pagination: $pagination) {
+        items {
+            databaseName
+            tableName
+            rowCount
+        }
+        pagination {
+            itemIndex
+            itemIndexForPreviousPage
+            itemIndexForNextPage
+            itemsPerPage
+            itemsTotal
+            pagesTotal
+            page
+        }
+    }
+}
+
+# Database Table Rows Query
+query DataInteractionDatabaseTableRows(
+    $databaseName: String!
+    $tableName: String!
+    $pagination: PaginationInput
+    $orderBy: OrderBy
+    $filters: ColumnFilterGroup
+) {
+    dataInteractionDatabaseTableRows(
+        databaseName: $databaseName
+        tableName: $tableName
+        pagination: $pagination
+        orderBy: $orderBy
+        filters: $filters
+    ) {
+        items
+        databaseName
+        tableName
+        rowCount
+        columns {
+            name
+            type
+            isKey
+            isPrimaryKey
+            keyTableName
+            possibleValues
+            isNullable
+            isGenerated
+            length
+        }
+        relations {
+            fieldName
+            tableName
+            type
+            inverseFieldName
+            inverseType
+            inverseTableName
+        }
+        pagination {
+            itemIndex
+            itemIndexForPreviousPage
+            itemIndexForNextPage
+            itemsPerPage
+            itemsTotal
+            pagesTotal
+            page
+        }
+    }
+}
