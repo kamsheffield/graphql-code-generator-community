@@ -228,7 +228,11 @@ function baseOperationTemplates(): string {
   readonly parameters?: ReadonlyArray<GraphQLOperationParameterMetadata>;
 }
 
-export type GraphQLOperationParameterMetadata = GraphQLOperationScalarParameterMetadata | GraphQLOperationUnitParameterMetadata | GraphQLOperationListParameterMetadata;
+export type GraphQLOperationParameterMetadata =
+  GraphQLOperationScalarParameterMetadata |
+  GraphQLOperationUnitParameterMetadata |
+  GraphQLOperationListParameterMetadata |
+  GraphQLOperationScalarListParameterMetadata;
 
 interface BaseGraphQLOperationParameterMetadata {
   readonly parameter: string;
@@ -245,16 +249,28 @@ export interface GraphQLOperationUnitParameterMetadata extends BaseGraphQLOperat
   readonly type: GraphQLInputTypeMetadata;
 }
 
-export interface GraphQLOperationListParameterMetadata extends BaseGraphQLOperationParameterMetadata {
+interface BaseGraphQLOperationListParameterMetadata extends BaseGraphQLOperationParameterMetadata {
   readonly kind: 'list';
-  readonly type: GraphQLInputTypeMetadata;
   readonly allowsEmpty: boolean;
+}
+
+export interface GraphQLOperationListParameterMetadata extends BaseGraphQLOperationListParameterMetadata {
+  readonly itemKind: 'enum' | 'object';
+  readonly type: GraphQLInputTypeMetadata;
+}
+
+export interface GraphQLOperationScalarListParameterMetadata extends BaseGraphQLOperationListParameterMetadata {
+  readonly itemKind: 'scalar';
+  readonly type: string;
 }
 `;
 }
 
 function baseInputTypeTemplates(): string {
-  return `export type GraphQLInputTypeMetadata = GraphQLInputScalarTypeMetadata | GraphQLInputEnumTypeMetadata | GraphQLInputObjectTypeMetadata;
+  return `export type GraphQLInputTypeMetadata =
+  GraphQLInputScalarTypeMetadata |
+  GraphQLInputEnumTypeMetadata |
+  GraphQLInputObjectTypeMetadata;
 
 interface BaseGraphQLInputTypeMetadata {
   readonly type: string;
@@ -275,7 +291,12 @@ export interface GraphQLInputObjectTypeMetadata extends BaseGraphQLInputTypeMeta
   readonly fields: ReadonlyArray<GraphQLInputObjectFieldMetadata>;
 }
 
-export type GraphQLInputObjectFieldMetadata = GraphQLInputObjectScalarFieldMetadata | GraphQLInputObjectEnumFieldMetadata | GraphQLInputObjectObjectFieldMetadata | GraphQLInputObjectListFieldMetadata;
+export type GraphQLInputObjectFieldMetadata =
+  GraphQLInputObjectScalarFieldMetadata |
+  GraphQLInputObjectEnumFieldMetadata |
+  GraphQLInputObjectObjectFieldMetadata |
+  GraphQLInputObjectListFieldMetadata |
+  GraphQLInputObjectScalarListFieldMetadata;
 
 interface BaseGraphQLInputObjectFieldMetadata {
   readonly name: string;
@@ -298,11 +319,19 @@ export interface GraphQLInputObjectObjectFieldMetadata extends BaseGraphQLInputO
   readonly type: GraphQLInputObjectTypeMetadata;
 }
 
-export interface GraphQLInputObjectListFieldMetadata extends BaseGraphQLInputObjectFieldMetadata {
+interface BaseGraphQLInputObjectListFieldMetadata extends BaseGraphQLInputObjectFieldMetadata {
   readonly kind: 'list';
-  readonly itemKind: 'scalar' | 'enum' | 'object';
-  readonly type: string | GraphQLInputTypeMetadata;
   readonly allowsEmpty: boolean;
+}
+
+export interface GraphQLInputObjectListFieldMetadata extends BaseGraphQLInputObjectListFieldMetadata {
+  readonly itemKind: 'enum' | 'object';
+  readonly type: GraphQLInputTypeMetadata;
+}
+
+export interface GraphQLInputObjectScalarListFieldMetadata extends BaseGraphQLInputObjectListFieldMetadata {
+  readonly itemKind: 'scalar';
+  readonly type: string;
 }
 
 export interface GraphQLInputObjectFieldValidationMetadata {
@@ -400,22 +429,13 @@ function parameterTemplate(
     }`;
   } else if (parameter.kind === 'list') {
     const typeMetadata = metadata.types.input[parameter.type];
-    if (typeMetadata.kind === 'scalar') {
-      return `
-    {
-      parameter: '${parameter.parameter}',
-      required: ${parameter.required},
-      kind: '${parameter.kind}',
-      type: '${parameter.type}',
-      allowsEmpty: ${parameter.listRequiresItems},
-    }`;
-    }
     return `
     {
       parameter: '${parameter.parameter}',
       required: ${parameter.required},
       kind: '${parameter.kind}',
-      type: GraphQLInputTypes.${parameter.type},
+      itemKind: '${typeMetadata.kind}',
+      type: ${getParameterType(typeMetadata.kind, parameter.type)},
       allowsEmpty: ${parameter.listRequiresItems},
     }`;
   }
@@ -427,6 +447,13 @@ function parameterTemplate(
       kind: '${parameter.kind}',
       type: GraphQLInputTypes.${parameter.type},
     }`;
+}
+
+function getParameterType(kind: 'object' | 'enum' | 'scalar', type: string): string {
+  if (kind === 'scalar') {
+    return `'${type}'`;
+  }
+  return `GraphQLInputTypes.${type}`;
 }
 
 interface GraphQLSchemaMetadata {
