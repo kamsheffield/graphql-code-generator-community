@@ -160,63 +160,108 @@ function generateTypescriptOperations(
   operations: Array<OperationGenerationMetadata>,
   metadata: GraphQLSchemaMetadata
 ): string {
-  const typeDefinitions: Record<string, string> = {};
+  const typesToGenerate = new Set<string>();
   const operationDefinitions: Array<string> = [];
 
+  // First pass: collect all types we need to generate
   for (const operation of operations) {
-    //
     for (const parameter of operation.parameters) {
-      // if the type is already defined, we don't need to do anything
-      if (typeDefinitions[parameter.type]) {
-        continue;
-      }
-      generateTypescriptType(parameter, metadata, typeDefinitions);
+      collectTypeDependencies(parameter.type, metadata, typesToGenerate);
     }
     operationDefinitions.push(operationTemplate(operation, metadata));
   }
 
+  // Topological sort: emit types in dependency order (dependencies first)
+  const sortedTypes = topologicalSortTypes(typesToGenerate, metadata);
+
+  // Generate type definitions in sorted order
+  const typeDefinitions: string[] = [];
+  for (const typeName of sortedTypes) {
+    const typeMetadata = metadata.types.input[typeName];
+    if (typeMetadata.kind === 'enum') {
+      typeDefinitions.push(enumTypeTemplate(typeMetadata));
+    } else if (typeMetadata.kind === 'object') {
+      typeDefinitions.push(objectTypeTemplate(typeMetadata));
+    }
+  }
+
   return baseInputTypeTemplates() + '\n'
-  + Object.values(typeDefinitions).reverse().join('\n')
+  + typeDefinitions.join('\n')
   + '\n'
   + baseOperationTemplates() + '\n'
   + operationDefinitions.join('\n');
 }
 
-function generateTypescriptType(
-  parameter: { type: string},
+function collectTypeDependencies(
+  typeName: string,
   metadata: GraphQLSchemaMetadata,
-  typeDefinitions: Record<string, string>
+  collected: Set<string>
 ) {
-  if (typeDefinitions[parameter.type]) {
+  if (collected.has(typeName)) {
     return;
   }
 
-  // get the type metadata
-  const typeMetadata = metadata.types.input[parameter.type];
-  if (!typeMetadata) {
-    throw new Error(`Type ${parameter.type} not found in schema metadata`);
+  const typeMetadata = metadata.types.input[typeName];
+  if (!typeMetadata || typeMetadata.kind === 'scalar') {
+    return;
   }
 
+  collected.add(typeName);
+
   if (typeMetadata.kind === 'object') {
-    typeDefinitions[typeMetadata.type] = objectTypeTemplate(typeMetadata);
-    // recurse through the fields
     for (const field of typeMetadata.fields) {
-      if (field.kind === 'object') {
-        // get the type metadata for the object
-        const fieldTypeMetadata = metadata.types.input[field.type];
-        generateTypescriptType(fieldTypeMetadata, metadata, typeDefinitions);
-      } else if (field.kind === 'enum') {
-        // get the type metadata for the enum
-        const enumTypeMetadata = metadata.types.input[field.type];
-        generateTypescriptType(enumTypeMetadata, metadata, typeDefinitions);
-        //typeDefinitions[field.type] = enumTypeTemplate(enumTypeMetadata as GraphQLInputEnumTypeMetadata);
+      if (field.kind === 'object' || field.kind === 'enum') {
+        collectTypeDependencies(field.type, metadata, collected);
       }
-      // do nothing for scalar types
     }
-  } else if (typeMetadata.kind === 'enum') {
-    typeDefinitions[typeMetadata.type] = enumTypeTemplate(typeMetadata);
   }
-  // do nothing for scalar types
+}
+
+function topologicalSortTypes(
+  types: Set<string>,
+  metadata: GraphQLSchemaMetadata
+): string[] {
+  const result: string[] = [];
+  const visited = new Set<string>();
+  const visiting = new Set<string>(); // For cycle detection
+
+  function visit(typeName: string) {
+    if (visited.has(typeName)) {
+      return;
+    }
+    if (visiting.has(typeName)) {
+      // Cycle detected - just skip (shouldn't happen in valid GraphQL schemas)
+      return;
+    }
+
+    const typeMetadata = metadata.types.input[typeName];
+    if (!typeMetadata || typeMetadata.kind === 'scalar') {
+      return;
+    }
+
+    visiting.add(typeName);
+
+    // Visit dependencies first
+    if (typeMetadata.kind === 'object') {
+      for (const field of typeMetadata.fields) {
+        if (field.kind === 'object' || field.kind === 'enum') {
+          if (types.has(field.type)) {
+            visit(field.type);
+          }
+        }
+      }
+    }
+
+    visiting.delete(typeName);
+    visited.add(typeName);
+    result.push(typeName);
+  }
+
+  for (const typeName of types) {
+    visit(typeName);
+  }
+
+  return result;
 }
 
 function baseOperationTemplates(): string {
@@ -343,8 +388,18 @@ export interface GraphQLInputObjectFieldValidationMetadata {
 `;
 }
 
+// Helper to generate export name without doubling "Input"
+// e.g., "PostCreateInput" -> "PostCreateInputMetadata" (not "PostCreateInputInputMetadata")
+// e.g., "RichContentFormat" -> "RichContentFormatMetadata"
+function getExportName(typeName: string): string {
+  if (typeName.endsWith('Input')) {
+    return `${typeName}Metadata`;
+  }
+  return `${typeName}Metadata`;
+}
+
 function enumTypeTemplate(type: GraphQLInputEnumTypeMetadata): string {
-  return `export const ${type.type}InputMetadata: GraphQLInputEnumTypeMetadata = {
+  return `export const ${getExportName(type.type)}: GraphQLInputEnumTypeMetadata = {
   kind: 'enum',
   type: '${type.type}',
   values: [${type.values.map(v => '\n    ' + `'${v}'`).join(',')}\n  ],
@@ -353,7 +408,7 @@ function enumTypeTemplate(type: GraphQLInputEnumTypeMetadata): string {
 }
 
 function objectTypeTemplate(type: GraphQLInputObjectTypeMetadata): string {
-  return `export const ${type.type}InputMetadata: GraphQLInputObjectTypeMetadata = {
+  return `export const ${getExportName(type.type)}: GraphQLInputObjectTypeMetadata = {
   kind: 'object',
   type: '${type.type}',
   fields: [${type.fields.map(f => '\n  ' + fieldTemplate(f)).join(',')}\n  ],
@@ -384,7 +439,7 @@ function getFieldType(field: GraphQLInputObjectFieldMetadata): string {
   if (field.kind === 'scalar') {
     return `'${field.type}'`;
   }
-  return `${field.type}InputMetadata`;
+  return getExportName(field.type);
 }
 
 function validationTemplate(validation: GraphQLInputObjectFieldValidationMetadata): string {
@@ -444,7 +499,7 @@ function parameterTemplate(
       parameter: '${parameter.parameter}',
       required: ${parameter.required},
       kind: '${parameter.kind}',
-      type: ${parameter.type}InputMetadata,
+      type: ${getExportName(parameter.type)},
     }`;
 }
 
@@ -452,7 +507,7 @@ function getParameterType(kind: 'object' | 'enum' | 'scalar', type: string): str
   if (kind === 'scalar') {
     return `'${type}'`;
   }
-  return `${type}InputMetadata`;
+  return getExportName(type);
 }
 
 interface GraphQLSchemaMetadata {
