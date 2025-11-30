@@ -172,16 +172,17 @@ function generateTypescriptOperations(
   }
 
   // Topological sort: emit types in dependency order (dependencies first)
-  const sortedTypes = topologicalSortTypes(typesToGenerate, metadata);
+  const { sorted: sortedTypes, circularRefs } = topologicalSortTypes(typesToGenerate, metadata);
 
   // Generate type definitions in sorted order
   const typeDefinitions: string[] = [];
   for (const typeName of sortedTypes) {
     const typeMetadata = metadata.types.input[typeName];
+    const circularFields = circularRefs.get(typeName) || new Set();
     if (typeMetadata.kind === 'enum') {
       typeDefinitions.push(enumTypeTemplate(typeMetadata));
     } else if (typeMetadata.kind === 'object') {
-      typeDefinitions.push(objectTypeTemplate(typeMetadata));
+      typeDefinitions.push(objectTypeTemplate(typeMetadata, circularFields));
     }
   }
 
@@ -220,17 +221,25 @@ function collectTypeDependencies(
 function topologicalSortTypes(
   types: Set<string>,
   metadata: GraphQLSchemaMetadata
-): string[] {
+): { sorted: string[]; circularRefs: Map<string, Set<string>> } {
   const result: string[] = [];
   const visited = new Set<string>();
   const visiting = new Set<string>(); // For cycle detection
+  const circularRefs = new Map<string, Set<string>>(); // Track circular references per type
 
-  function visit(typeName: string) {
+  function visit(typeName: string, ancestorChain: string[] = []) {
     if (visited.has(typeName)) {
       return;
     }
     if (visiting.has(typeName)) {
-      // Cycle detected - just skip (shouldn't happen in valid GraphQL schemas)
+      // Cycle detected - record it for the ancestor that references this type
+      const parentType = ancestorChain[ancestorChain.length - 1];
+      if (parentType) {
+        if (!circularRefs.has(parentType)) {
+          circularRefs.set(parentType, new Set());
+        }
+        circularRefs.get(parentType)!.add(typeName);
+      }
       return;
     }
 
@@ -246,7 +255,7 @@ function topologicalSortTypes(
       for (const field of typeMetadata.fields) {
         if (field.kind === 'object' || field.kind === 'enum') {
           if (types.has(field.type)) {
-            visit(field.type);
+            visit(field.type, [...ancestorChain, typeName]);
           }
         }
       }
@@ -261,7 +270,7 @@ function topologicalSortTypes(
     visit(typeName);
   }
 
-  return result;
+  return { sorted: result, circularRefs };
 }
 
 function baseOperationTemplates(): string {
@@ -407,23 +416,46 @@ function enumTypeTemplate(type: GraphQLInputEnumTypeMetadata): string {
 `;
 }
 
-function objectTypeTemplate(type: GraphQLInputObjectTypeMetadata): string {
+function objectTypeTemplate(type: GraphQLInputObjectTypeMetadata, circularFields: Set<string> = new Set()): string {
   return `export const ${getExportName(type.type)}: GraphQLInputObjectTypeMetadata = {
   kind: 'object',
   type: '${type.type}',
-  fields: [${type.fields.map(f => '\n  ' + fieldTemplate(f)).join(',')}\n  ],
+  fields: [${type.fields.map(f => '\n  ' + fieldTemplate(f, circularFields)).join(',')}\n  ],
 };
 `;
 }
 
-function fieldTemplate(field: GraphQLInputObjectFieldMetadata): string {
+function fieldTemplate(field: GraphQLInputObjectFieldMetadata, circularFields: Set<string> = new Set()): string {
+  const isCircular = circularFields.has(field.type);
+  const typeValue = isCircular
+    ? `get type() { return ${getExportName(field.type)}; }`
+    : `type: ${getFieldType(field)}`;
+
   if (field.validation && field.validation.length > 0) {
+    if (isCircular) {
+      return `{
+      name: '${field.name}',
+      kind: '${field.kind}',
+      ${typeValue},
+      required: ${field.required},
+      validation: [${field.validation.map(v => '\n      ' + validationTemplate(v)).join(',')}\n      ],
+    }`;
+    }
     return `{
       name: '${field.name}',
       kind: '${field.kind}',
       type: ${getFieldType(field)},
       required: ${field.required},
       validation: [${field.validation.map(v => '\n      ' + validationTemplate(v)).join(',')}\n      ],
+    }`;
+  }
+
+  if (isCircular) {
+    return `{
+      name: '${field.name}',
+      kind: '${field.kind}',
+      ${typeValue},
+      required: ${field.required},
     }`;
   }
 
