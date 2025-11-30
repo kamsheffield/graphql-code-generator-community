@@ -176,9 +176,8 @@ function generateTypescriptOperations(
   }
 
   return baseInputTypeTemplates() + '\n'
-  + 'export namespace GraphQLInputTypes {\n\n'
   + Object.values(typeDefinitions).reverse().join('\n')
-  + '}\n\n'
+  + '\n'
   + baseOperationTemplates() + '\n'
   + operationDefinitions.join('\n');
 }
@@ -345,47 +344,47 @@ export interface GraphQLInputObjectFieldValidationMetadata {
 }
 
 function enumTypeTemplate(type: GraphQLInputEnumTypeMetadata): string {
-  return `  export const ${type.type}: GraphQLInputEnumTypeMetadata = {
-    kind: 'enum',
-    type: '${type.type}',
-    values: [${type.values.map(v => '\n      ' + `'${v}'`).join(',')}\n    ],
-  }
+  return `export const ${type.type}InputMetadata: GraphQLInputEnumTypeMetadata = {
+  kind: 'enum',
+  type: '${type.type}',
+  values: [${type.values.map(v => '\n    ' + `'${v}'`).join(',')}\n  ],
+};
 `;
 }
 
 function objectTypeTemplate(type: GraphQLInputObjectTypeMetadata): string {
-  return `  export const ${type.type}: GraphQLInputObjectTypeMetadata = {
-    kind: 'object',
-    type: '${type.type}',
-    fields: [${type.fields.map(f => '\n    ' + fieldTemplate(f)).join(',')}\n    ],
-  }
+  return `export const ${type.type}InputMetadata: GraphQLInputObjectTypeMetadata = {
+  kind: 'object',
+  type: '${type.type}',
+  fields: [${type.fields.map(f => '\n  ' + fieldTemplate(f)).join(',')}\n  ],
+};
 `;
 }
 
 function fieldTemplate(field: GraphQLInputObjectFieldMetadata): string {
   if (field.validation && field.validation.length > 0) {
-    return `  {
-        name: '${field.name}',
-        kind: '${field.kind}',
-        type: ${getFieldType(field)},
-        required: ${field.required},
-        validation: [${field.validation.map(v => '\n        ' + validationTemplate(v)).join(',')}\n        ],
-      }`;
+    return `{
+      name: '${field.name}',
+      kind: '${field.kind}',
+      type: ${getFieldType(field)},
+      required: ${field.required},
+      validation: [${field.validation.map(v => '\n      ' + validationTemplate(v)).join(',')}\n      ],
+    }`;
   }
 
-  return `  {
-        name: '${field.name}',
-        kind: '${field.kind}',
-        type: ${getFieldType(field)},
-        required: ${field.required},
-      }`;
+  return `{
+      name: '${field.name}',
+      kind: '${field.kind}',
+      type: ${getFieldType(field)},
+      required: ${field.required},
+    }`;
 }
 
 function getFieldType(field: GraphQLInputObjectFieldMetadata): string {
   if (field.kind === 'scalar') {
     return `'${field.type}'`;
   }
-  return `GraphQLInputTypes.${field.type}`;
+  return `${field.type}InputMetadata`;
 }
 
 function validationTemplate(validation: GraphQLInputObjectFieldValidationMetadata): string {
@@ -445,7 +444,7 @@ function parameterTemplate(
       parameter: '${parameter.parameter}',
       required: ${parameter.required},
       kind: '${parameter.kind}',
-      type: GraphQLInputTypes.${parameter.type},
+      type: ${parameter.type}InputMetadata,
     }`;
 }
 
@@ -453,7 +452,7 @@ function getParameterType(kind: 'object' | 'enum' | 'scalar', type: string): str
   if (kind === 'scalar') {
     return `'${type}'`;
   }
-  return `GraphQLInputTypes.${type}`;
+  return `${type}InputMetadata`;
 }
 
 interface GraphQLSchemaMetadata {
